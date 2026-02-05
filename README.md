@@ -1,10 +1,3 @@
-# 🎵 Contratação de Artistas
-
-Uma aplicação web desenvolvida em **Next.js** para facilitar a pesquisa, visualização e contratação de artistas e bandas para eventos.
-
-## 📋 Sobre o Projeto
-
-Este projeto permite aos utilizadores ("clientes") navegar por uma lista de artistas, visualizar os seus detalhes e submeter pedidos de contratação. O sistema inclui validação de formulários e gestão de estados para garantir uma experiência de utilizador fluida.
 
 ## ✨ Funcionalidades Principais
 
