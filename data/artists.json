@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "name": "Taylor Swift",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb859e4c14fa59296c8649e0e4",
+    "genre": "Pop"
+  },
+  {
+    "id": "2",
+    "name": "The Weeknd",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb214f3cf1cbe7139c1e26ffbb",
+    "genre": "R&B"
+  },
+  {
+    "id": "3",
+    "name": "Beyoncé",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb12e3f20d05a8d6cfde988715",
+    "genre": "Pop/R&B"
+  },
+  {
+    "id": "4",
+    "name": "Ed Sheeran",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb3bcef85e105dfc42399ef0ba",
+    "genre": "Pop/Folk"
+  },
+  {
+    "id": "5",
+    "name": "Adele",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb68f6e5892075d7f22615bd17",
+    "genre": "Soul/Pop"
+  },
+  {
+    "id": "6",
+    "name": "Bruno Mars",
+    "image": "https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd",
+    "genre": "Pop/Funk"
+  },
+  {
+    "id": "7",
+    "name": "Anitta",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb2a0b4e4b1b2b3b4b5b6b7b8b",
+    "genre": "Pop/Reggaeton"
+  },
+  {
+    "id": "8",
+    "name": "Coldplay",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb1ba8fc5f5c73e7e9313cc6eb",
+    "genre": "Alternative Rock"
+  },
+  {
+    "id": "9",
+    "name": "Maroon 5",
+    "image": "https://i.scdn.co/image/ab6761610000e5ebf8349dfb6a264e2552032df9",
+    "genre": "Pop Rock"
+  },
+  {
+    "id": "10",
+    "name": "Imagine Dragons",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb920dc1f617550f1e5da76b85",
+    "genre": "Alternative Rock"
+  },
+  {
+    "id": "11",
+    "name": "Linkin Park",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb811da3b2e7c9e5a3c1a1b2c3",
+    "genre": "Rock/Nu Metal"
+  },
+  {
+    "id": "12",
+    "name": "Dua Lipa",
+    "image": "https://i.scdn.co/image/ab6761610000e5eb2090e4a2b5f7f4e1d3c8a9b0",
+    "genre": "Pop/Dance"
+  }
+]

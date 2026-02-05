@@ -1,0 +1,134 @@
+/**
+ * Home page styles
+ * Estilos da página home
+ */
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header / Cabeçalho */
+.appHeader {
+  background-color: var(--color-secondary, #191414);
+  color: var(--color-text, #ffffff);
+  padding: var(--spacing-lg, 24px) var(--spacing-md, 16px);
+  text-align: center;
+}
+
+.logo {
+  font-size: 2rem;
+  margin: 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.tagline {
+  margin: var(--spacing-xs, 4px) 0 0;
+  font-size: var(--font-size-md, 1rem);
+  color: #b3b3b3;
+}
+
+/* Main content / Conteúdo principal */
+.main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-lg, 24px) var(--spacing-md, 16px);
+}
+
+/* Artist grid / Grid de artistas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-md, 16px);
+}
+
+/* Results count / Contagem de resultados */
+.resultsCount {
+  font-size: var(--font-size-sm, 0.875rem);
+  color: #888;
+  margin-bottom: var(--spacing-md, 16px);
+}
+
+/* No results / Sem resultados */
+.noResults {
+  text-align: center;
+  padding: var(--spacing-xl, 32px);
+  color: #888;
+  font-size: var(--font-size-lg, 1.25rem);
+}
+
+/* History link section / Seção link do histórico */
+.historyLink {
+  text-align: center;
+  margin-top: var(--spacing-xl, 32px);
+  padding-top: var(--spacing-lg, 24px);
+  border-top: 1px solid #e0e0e0;
+}
+
+.historyBtn {
+  background: transparent;
+  border: 2px solid var(--color-primary, #1DB954);
+  color: var(--color-primary, #1DB954);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.historyBtn:hover {
+  background-color: var(--color-primary, #1DB954);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer / Rodapé */
+.footer {
+  background-color: var(--color-secondary, #191414);
+  color: #b3b3b3;
+  text-align: center;
+  padding: var(--spacing-md, 16px);
+  font-size: var(--font-size-sm, 0.875rem);
+}
+
+/* ========== RESPONSIVE / RESPONSIVO ========== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .appHeader {
+    padding: var(--spacing-md, 16px);
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .tagline {
+    font-size: var(--font-size-sm, 0.875rem);
+  }
+
+  .main {
+    padding: var(--spacing-md, 16px) var(--spacing-sm, 8px);
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--spacing-sm, 8px);
+  }
+}

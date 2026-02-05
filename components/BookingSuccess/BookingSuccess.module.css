@@ -1,0 +1,100 @@
+/* BookingSuccess styles / Estilos do BookingSuccess */
+
+.container {
+  text-align: center;
+  padding: var(--spacing-xl, 32px);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  background-color: var(--color-success, #2ecc71);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--spacing-lg, 24px);
+  animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+.checkIcon {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.title {
+  font-size: var(--font-size-xl, 1.5rem);
+  color: var(--color-secondary, #191414);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: var(--font-size-md, 1rem);
+  color: #666;
+  margin-bottom: var(--spacing-lg, 24px);
+}
+
+.summary {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: var(--spacing-md, 16px);
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto var(--spacing-lg, 24px);
+}
+
+.summary p {
+  margin: var(--spacing-xs, 4px) 0;
+  font-size: var(--font-size-md, 1rem);
+}
+
+.actions {
+  display: flex;
+  gap: var(--spacing-md, 16px);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  background-color: var(--color-primary, #1DB954);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.secondaryBtn {
+  background-color: transparent;
+  color: var(--color-primary, #1DB954);
+  border: 2px solid var(--color-primary, #1DB954);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.secondaryBtn:hover {
+  background-color: var(--color-primary, #1DB954);
+  color: #fff;
+}
