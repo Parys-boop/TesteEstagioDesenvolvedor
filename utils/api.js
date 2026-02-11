@@ -1,39 +1,39 @@
 /**
  * API utility functions for fetching artist data
- * Funções utilitárias de API para buscar dados de artistas
  */
-
+import axios from 'axios'; // Certifique-se que axios está instalado
 import fallbackArtists from '../data/artists.json';
 
 /**
  * Fetches artists based on search query
- * Uses mock data as fallback when no API key is configured
- *
- * Busca artistas com base na query de pesquisa
- * Usa dados mockados como fallback quando nenhuma chave de API está configurada
- *
- * @param {string} query - Search term / Termo de busca
- * @returns {Promise<Array>} Array of artist objects / Array de objetos de artistas
+ * Uses Spotify API via Next.js API Route, with mock fallback
  */
 export async function fetchArtists(query) {
-  // If no query is provided, return trending/popular artists (fallback data)
-  // Se nenhuma query for fornecida, retorna artistas em tendência (dados fallback)
+  // 1. Se não tiver query, retorna os populares (Mock/Fallback)
+  // O Spotify não tem um endpoint simples de "populares" sem contexto de usuário logado
   if (!query || query.trim().length === 0) {
     return fallbackArtists;
   }
 
-  // Filter mock artists based on query (case-insensitive)
-  // Filtra artistas mockados baseado na query (case-insensitive)
-  const lowerQuery = query.toLowerCase();
-  const filtered = fallbackArtists.filter(
-    (artist) =>
-      artist.name.toLowerCase().includes(lowerQuery) ||
-      artist.genre.toLowerCase().includes(lowerQuery)
-  );
+  try {
+    // 2. Tenta chamar nossa API Route segura
+    // A rota que criamos no Passo 3
+    const response = await axios.get(`/api/searchArtists`, {
+      params: { q: query }
+    });
 
-  // Simulate network delay for realistic UX
-  // Simula atraso de rede para UX realista
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(filtered), 400);
-  });
+    // Se a API retornar lista vazia, podemos decidir mostrar nada ou fallback
+    return response.data;
+
+  } catch (error) {
+    console.error("Erro na API do Spotify, usando fallback:", error);
+    
+    // 3. Fallback: Se a API falhar, filtra no JSON local (seu código original)
+    const lowerQuery = query.toLowerCase();
+    return fallbackArtists.filter(
+      (artist) =>
+        artist.name.toLowerCase().includes(lowerQuery) ||
+        artist.genre.toLowerCase().includes(lowerQuery)
+    );
+  }
 }

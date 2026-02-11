@@ -1,0 +1,153 @@
+/* Home Component Styles / Estilos do Componente Home */
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: var(--spacing-lg, 24px);
+}
+
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: var(--spacing-xl, 32px);
+  animation: slideDown 0.6s ease-out;
+}
+
+.title {
+  font-size: var(--font-size-xl, 1.5rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm, 8px);
+}
+
+.subtitle {
+  font-size: var(--font-size-md, 1rem);
+  opacity: 0.9;
+  margin: 0;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.selectedArtist {
+  background: white;
+  border-radius: 12px;
+  padding: var(--spacing-lg, 24px);
+  margin-bottom: var(--spacing-lg, 24px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  animation: slideUp 0.4s ease-out;
+}
+
+.closeButton {
+  position: absolute;
+  top: var(--spacing-md, 16px);
+  right: var(--spacing-md, 16px);
+  background: none;
+  border: none;
+  font-size: var(--font-size-lg, 1.25rem);
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.bookingButton {
+  background: #667eea;
+  color: white;
+  padding: var(--spacing-sm, 8px) var(--spacing-lg, 24px);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: var(--spacing-md, 16px);
+  transition: background 0.3s;
+}
+
+.bookingButton:hover {
+  background: #764ba2;
+}
+
+.results {
+  background: white;
+  border-radius: 12px;
+  padding: var(--spacing-lg, 24px);
+  min-height: 400px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--spacing-lg, 24px);
+  animation: fadeIn 0.6s ease-out;
+}
+
+.loadingSpinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: var(--font-size-lg, 1.25rem);
+  color: #666;
+}
+
+.noResults {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-size: var(--font-size-lg, 1.25rem);
+  color: #999;
+}
+
+/* Animations / Animações */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design / Design Responsivo */
+@media (max-width: 768px) {
+  .container {
+    padding: var(--spacing-md, 16px);
+  }
+
+  .title {
+    font-size: var(--font-size-lg, 1.25rem);
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md, 16px);
+  }
+}
