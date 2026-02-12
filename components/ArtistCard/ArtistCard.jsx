@@ -36,16 +36,18 @@ const ArtistCard = ({ artist, onSelect }) => {
       role="button"
       aria-label={`Select artist ${artist.name}`}
     >
-      <div className={styles.imageWrapper}>
-        <Image
-          src={artist.image || 'https://via.placeholder.com/200x200?text=No+Image'}
-          alt={`Photo of ${artist.name}`}
-          className={styles.image}
-          width={200}
-          height={200}
-          loading="lazy"
-        />
-      </div>
+      {artist.image && (
+        <div className={styles.imageWrapper}>
+          <Image
+            src={artist.image}
+            alt={`Photo of ${artist.name}`}
+            className={styles.image}
+            width={200}
+            height={200}
+            loading="lazy"
+          />
+        </div>
+      )}
       <h3 className={styles.name}>{artist.name}</h3>
       <p className={styles.genre}>{artist.genre}</p>
     </article>

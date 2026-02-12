@@ -14,84 +14,10 @@
  * @returns {Promise<Array>} Array of artists / Array de artistas
  */
 
-import artistsData from '@/data/artists.json';
+import { getSpotifyAccessToken } from './spotifyClient';
 
-// Cache for Spotify access token to avoid repeated authentication
-// Cache para token de acesso do Spotify para evitar autenticação repetida
-let spotifyAccessToken = null;
-let tokenExpiresAt = null;
-
-/**
- * Reset Spotify token cache
- * Reseta o cache do token Spotify
- */
-function resetSpotifyToken() {
-  spotifyAccessToken = null;
-  tokenExpiresAt = null;
-}
-
-/**
- * Get Spotify access token using Client Credentials Flow
- * Obtém token de acesso do Spotify usando Client Credentials Flow
- * 
- * @returns {Promise<string|null>} Access token or null if authentication fails / Token de acesso ou null se falhar
- */
-async function getSpotifyAccessToken() {
-  try {
-    // Check if cached token is still valid
-    // Verifica se token em cache ainda é válido
-    if (spotifyAccessToken && tokenExpiresAt && tokenExpiresAt > Date.now()) {
-      return spotifyAccessToken;
-    }
-
-    const clientId = process.env.SPOTIFY_CLIENT_ID;
-    const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-
-    // If credentials are not configured, return null
-    // Se credenciais não estão configuradas, retorna null
-    if (!clientId || !clientSecret) {
-      console.error('Spotify credentials not configured / Credenciais do Spotify não configuradas');
-      return null;
-    }
-
-    console.log('Requesting new Spotify token / Requisitando novo token Spotify...');
-
-    // Create authorization header
-    // Cria header de autorização
-    const auth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-    // Request new access token
-    // Requisita novo token de acesso
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Basic ${auth}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: 'grant_type=client_credentials',
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Spotify auth failed with status ${response.status}: ${errorText}`);
-      return null;
-    }
-
-    const data = await response.json();
-    
-    // Cache the token with expiration time
-    // Cacheia o token com tempo de expiração
-    spotifyAccessToken = data.access_token;
-    tokenExpiresAt = Date.now() + (data.expires_in * 1000) - 60000; // Refresh 1 minute before expiry / Atualiza 1 minuto antes de expirar
-    
-    console.log('✓ Spotify token obtained successfully / Token do Spotify obtido com sucesso');
-    return spotifyAccessToken;
-  } catch (error) {
-    console.error('Failed to get Spotify token / Falha ao obter token Spotify:', error.message);
-    resetSpotifyToken();
-    return null;
-  }
-}
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 50;
 
 /**
  * GET request handler for artist search
@@ -106,12 +32,20 @@ export async function GET(request) {
     // Extrai o termo de busca dos parâmetros da URL
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q') || '';
-    const offset = parseInt(searchParams.get('offset') || '0', 10);
+    const offset = Number.parseInt(searchParams.get('offset') || '0', 10);
+    const requestedLimit = Number.parseInt(searchParams.get('limit') || `${DEFAULT_LIMIT}`, 10);
+    const limit = Number.isNaN(requestedLimit)
+      ? DEFAULT_LIMIT
+      : Math.min(Math.max(requestedLimit, 1), MAX_LIMIT);
 
-    // If no query provided, return all local artists (trending/popular)
-    // Se nenhuma query fornecida, retorna todos os artistas locais (em tendência/populares)
+    // If no query provided, return empty list (no local mock data)
+    // Se nenhuma query for fornecida, retorna lista vazia (sem dados mock locais)
     if (!query || query.trim().length === 0) {
-      return new Response(JSON.stringify(artistsData), {
+      return new Response(JSON.stringify({
+        artists: [],
+        hasMore: false,
+        nextOffset: 0,
+      }), {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
@@ -130,7 +64,7 @@ export async function GET(request) {
         // Pesquisa API do Spotify por artistas
         const encodedQuery = encodeURIComponent(query);
         const spotifyResponse = await fetch(
-          `https://api.spotify.com/v1/search?q=${encodedQuery}&type=artist&limit=50&offset=${offset}`,
+          `https://api.spotify.com/v1/search?q=${encodedQuery}&type=artist&limit=${limit}&offset=${offset}`,
           {
             method: 'GET',
             headers: {
@@ -151,12 +85,23 @@ export async function GET(request) {
             id: artist.id,
             name: artist.name,
             genre: artist.genres && artist.genres.length > 0 ? artist.genres.join(', ') : 'Not classified / Não classificado',
-            image: artist.images && artist.images[0] ? artist.images[0].url : 'https://via.placeholder.com/200x200?text=No+Image',
+            // Use image only when provided by Spotify API
+            // Usa imagem apenas quando fornecida pela API do Spotify
+            image: artist.images && artist.images[0] ? artist.images[0].url : null,
           }));
 
           console.log(`✓ Found ${artists.length} artists from Spotify / Encontrados ${artists.length} artistas do Spotify`);
 
-          return new Response(JSON.stringify(artists), {
+          const total = data.artists.total ?? 0;
+          const nextOffset = offset + artists.length;
+          const hasMore = nextOffset < total;
+
+          return new Response(JSON.stringify({
+            artists,
+            hasMore,
+            nextOffset,
+            total,
+          }), {
             status: 200,
             headers: {
               'Content-Type': 'application/json',
@@ -181,17 +126,15 @@ export async function GET(request) {
       console.warn('No Spotify token available / Nenhum token Spotify disponível');
     }
 
-    // Fallback: Filter local artists by search query
-    // Fallback: Filtra artistas locais pelo termo de busca
-    console.log('Using local fallback / Usando fallback local');
-    const lowerQuery = query.toLowerCase();
-    const filteredArtists = artistsData.filter(
-      (artist) =>
-        artist.name.toLowerCase().includes(lowerQuery) ||
-        artist.genre.toLowerCase().includes(lowerQuery)
-    );
+    // Fallback: when Spotify is unavailable, return empty list instead of hardcoded artists
+    // Fallback: quando o Spotify estiver indisponível, retorna lista vazia em vez de artistas hardcoded
+    console.log('Using empty fallback (no local artists) / Usando fallback vazio (sem artistas locais)');
 
-    return new Response(JSON.stringify(filteredArtists), {
+    return new Response(JSON.stringify({
+      artists: [],
+      hasMore: false,
+      nextOffset: offset,
+    }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',

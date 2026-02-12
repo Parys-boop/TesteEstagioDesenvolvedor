@@ -94,13 +94,15 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
 
       {/* Artist preview card / Card de preview do artista */}
       <div className={styles.artistPreview}>
-        <Image
-          src={selectedArtist.image || 'https://via.placeholder.com/60x60?text=No+Image'}
-          alt={selectedArtist.name}
-          className={styles.artistImage}
-          width={60}
-          height={60}
-        />
+        {selectedArtist.image && (
+          <Image
+            src={selectedArtist.image}
+            alt={selectedArtist.name}
+            className={styles.artistImage}
+            width={60}
+            height={60}
+          />
+        )}
         <div>
           <strong>{selectedArtist.name}</strong>
           <p className={styles.genreLabel}>{selectedArtist.genre}</p>

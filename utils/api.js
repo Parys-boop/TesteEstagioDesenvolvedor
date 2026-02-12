@@ -1,39 +1,41 @@
 /**
  * API utility functions for fetching artist data
+ * Funções utilitárias de API para buscar dados de artistas
  */
-import axios from 'axios'; // Certifique-se que axios está instalado
-import fallbackArtists from '../data/artists.json';
+import axios from 'axios'; // Ensure axios is installed / Garanta que o axios está instalado
 
 /**
- * Fetches artists based on search query
- * Uses Spotify API via Next.js API Route, with mock fallback
+ * Fetches artists based only on Spotify API results
+ * Busca artistas apenas com base nos resultados da API do Spotify
+ *
+ * @param {Object} options - Search options / Opções de busca
+ * @param {string} options.query - Search term / Termo de busca
+ * @param {number} [options.offset=0] - Pagination offset / Deslocamento para paginação
+ * @param {number} [options.limit=20] - Page size / Tamanho da página
+ * @returns {Promise<{artists: Array, hasMore: boolean, nextOffset: number}>} Paginated artists / Artistas paginados
  */
-export async function fetchArtists(query) {
-  // 1. Se não tiver query, retorna os populares (Mock/Fallback)
-  // O Spotify não tem um endpoint simples de "populares" sem contexto de usuário logado
+export async function fetchArtists({ query, offset = 0, limit = 20 }) {
+  // If there is no search term, return empty list (no local mock)
+  // Se não houver termo de busca, retorna lista vazia (sem mock local)
   if (!query || query.trim().length === 0) {
-    return fallbackArtists;
+    return { artists: [], hasMore: false, nextOffset: 0 };
   }
 
   try {
-    // 2. Tenta chamar nossa API Route segura
-    // A rota que criamos no Passo 3
-    const response = await axios.get(`/api/searchArtists`, {
-      params: { q: query }
+    // Call our secure Next.js API Route that talks to Spotify
+    // Chama nossa rota de API do Next.js que conversa com o Spotify
+    const response = await axios.get('/api/searchArtists', {
+      params: { q: query, offset, limit },
     });
 
-    // Se a API retornar lista vazia, podemos decidir mostrar nada ou fallback
+    // Return artists from API response directly
+    // Retorna artistas diretamente da resposta da API
     return response.data;
-
   } catch (error) {
-    console.error("Erro na API do Spotify, usando fallback:", error);
-    
-    // 3. Fallback: Se a API falhar, filtra no JSON local (seu código original)
-    const lowerQuery = query.toLowerCase();
-    return fallbackArtists.filter(
-      (artist) =>
-        artist.name.toLowerCase().includes(lowerQuery) ||
-        artist.genre.toLowerCase().includes(lowerQuery)
-    );
+    console.error('Spotify API error, returning empty list / Erro na API do Spotify, retornando lista vazia:', error);
+
+    // On any error we return an empty list (no hardcoded artists)
+    // Em qualquer erro retornamos lista vazia (sem artistas hardcoded)
+    return { artists: [], hasMore: false, nextOffset: offset };
   }
 }
