@@ -4,6 +4,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 README.md - Plataforma de Contratação de Artistas
 
+f
+
 📋 Diretrizes de Desenvolvimento para IA
 
 Este documento serve como guia de referência obrigatório para qualquer assistente de IA trabalhando neste projeto. Todas as modificações devem aderir estritamente aos parâmetros e especificações descritos abaixo.
