@@ -1,8 +1,8 @@
 /* ArtistCard styles / Estilos do ArtistCard */
 
 .card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: var(--spacing-md, 16px);
   text-align: center;
@@ -16,7 +16,8 @@
 .card:focus {
   transform: translateY(-8px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-primary, #1DB954);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .card:active {
@@ -50,13 +51,13 @@
 
 .name {
   font-size: var(--font-size-lg, 1.25rem);
-  color: var(--color-secondary, #191414);
+  color: var(--color-text);
   margin: var(--spacing-xs, 4px) 0;
 }
 
 .genre {
   font-size: var(--font-size-sm, 0.875rem);
-  color: #888;
+  color: var(--color-text-muted);
   margin: 0;
 }
 

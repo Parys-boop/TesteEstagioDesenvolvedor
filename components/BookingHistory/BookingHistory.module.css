@@ -43,13 +43,13 @@
 
 .header h2 {
   font-size: var(--font-size-xl, 1.5rem);
-  color: var(--color-secondary, #191414);
+  color: var(--color-text);
 }
 
 .backBtn {
   background-color: transparent;
-  color: var(--color-primary, #1DB954);
-  border: 2px solid var(--color-primary, #1DB954);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -57,15 +57,17 @@
   transition: all 0.3s ease-in-out;
 }
 
-.backBtn:hover {
-  background-color: var(--color-primary, #1DB954);
-  color: #fff;
+.backBtn:hover,
+.backBtn:focus-visible {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-on-primary);
 }
 
 .empty {
   text-align: center;
   padding: var(--spacing-xl, 32px);
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .list {
@@ -77,8 +79,8 @@
 }
 
 .item {
-  background: #fff;
-  border: 1px solid #e0e0e0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: var(--spacing-md, 16px);
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -88,7 +90,7 @@
 .item:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
-  border-color: var(--color-primary, #1DB954);
+  border-color: var(--color-primary-hover);
 }
 
 .artistInfo {
@@ -108,12 +110,12 @@
 .artistName {
   margin: 0;
   font-size: var(--font-size-lg, 1.25rem);
-  color: var(--color-secondary, #191414);
+  color: var(--color-text);
 }
 
 .genre {
   font-size: var(--font-size-sm, 0.875rem);
-  color: #888;
+  color: var(--color-text-muted);
 }
 
 .details p {
@@ -124,7 +126,7 @@
 .timestamp {
   margin-top: var(--spacing-sm, 8px);
   font-size: var(--font-size-sm, 0.875rem);
-  color: #aaa;
+  color: var(--color-text-muted);
 }
 
 /* Responsive / Responsivo */

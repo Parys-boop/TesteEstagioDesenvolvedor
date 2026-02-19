@@ -2,13 +2,15 @@
 
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background:
+    radial-gradient(circle at top, rgba(29, 185, 84, 0.12), transparent 60%),
+    var(--color-bg);
   padding: var(--spacing-lg, 24px);
 }
 
 .header {
   text-align: center;
-  color: white;
+  color: var(--color-text);
   margin-bottom: var(--spacing-xl, 32px);
   animation: slideDown 0.6s ease-out;
 }
@@ -34,9 +36,9 @@
 }
 
 .historyButton {
-  background: rgba(255, 255, 255, 0.18);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-primary);
   padding: var(--spacing-sm, 8px) var(--spacing-lg, 24px);
   border-radius: 999px;
   font-weight: 600;
@@ -44,8 +46,10 @@
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.historyButton:hover {
-  background: rgba(255, 255, 255, 0.3);
+.historyButton:hover,
+.historyButton:focus-visible {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
   transform: translateY(-1px);
 }
 
@@ -55,7 +59,8 @@
 }
 
 .selectedArtist {
-  background: white;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: var(--spacing-lg, 24px);
   margin-bottom: var(--spacing-lg, 24px);
@@ -72,17 +77,17 @@
   border: none;
   font-size: var(--font-size-lg, 1.25rem);
   cursor: pointer;
-  color: #666;
+  color: var(--color-text-muted);
   transition: color 0.2s;
 }
 
 .closeButton:hover {
-  color: #333;
+  color: var(--color-text);
 }
 
 .bookingButton {
-  background: #667eea;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   padding: var(--spacing-sm, 8px) var(--spacing-lg, 24px);
   border: none;
   border-radius: 6px;
@@ -92,12 +97,14 @@
   transition: background 0.3s;
 }
 
-.bookingButton:hover {
-  background: #764ba2;
+.bookingButton:hover,
+.bookingButton:focus-visible {
+  background: var(--color-primary-hover);
 }
 
 .results {
-  background: white;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: var(--spacing-lg, 24px);
   min-height: 400px;
@@ -105,7 +112,7 @@
 
 .sectionTitle {
   font-size: var(--font-size-lg, 1.25rem);
-  color: var(--color-secondary, #191414);
+  color: var(--color-text);
   margin-bottom: var(--spacing-lg, 24px);
   margin-top: 0;
   animation: slideDown 0.4s ease-out;
@@ -138,14 +145,14 @@
   justify-content: center;
   min-height: 400px;
   font-size: var(--font-size-lg, 1.25rem);
-  color: #999;
+  color: var(--color-text-muted);
   flex-direction: column;
   gap: var(--spacing-sm, 8px);
   text-align: center;
 }
 
 .errorMsg {
-  color: #e74c3c;
+  color: var(--color-primary);
   font-size: var(--font-size-md, 1rem);
 }
 
@@ -156,8 +163,8 @@
 }
 
 .loadMoreButton {
-  background: #1db954;
-  color: white;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
   padding: var(--spacing-sm, 8px) var(--spacing-xl, 32px);
   border: none;
   border-radius: 999px;
@@ -166,7 +173,9 @@
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease-out;
 }
 
-.loadMoreButton:hover {
+.loadMoreButton:hover,
+.loadMoreButton:focus-visible {
+  background: var(--color-primary-hover);
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 12px 24px rgba(29, 185, 84, 0.35);
 }
@@ -187,7 +196,9 @@
   right: var(--spacing-lg, 24px);
   padding: var(--spacing-md, 16px) var(--spacing-lg, 24px);
   border-radius: 12px;
-  color: white;
+  color: var(--color-toast-text);
+  background: var(--color-toast);
+  border: 1px solid var(--color-border);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
@@ -197,11 +208,13 @@
 }
 
 .toastSuccess {
-  background: rgba(29, 185, 84, 0.95);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .toastError {
-  background: rgba(231, 76, 60, 0.95);
+  background: var(--color-toast);
+  border-color: var(--color-primary-hover);
 }
 
 .toastClose {
@@ -213,7 +226,8 @@
 }
 
 .toastClose:hover {
-  opacity: 0.8;
+  color: var(--color-primary-hover);
+  opacity: 0.9;
 }
 
 /* Animations / Animações */

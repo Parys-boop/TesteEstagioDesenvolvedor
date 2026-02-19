@@ -19,7 +19,7 @@
 .label {
   display: block;
   font-size: var(--font-size-sm, 0.875rem);
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: var(--spacing-xs, 4px);
 }
 
@@ -43,7 +43,9 @@
 .input {
   width: 100%;
   padding: 14px 14px 14px 44px;
-  border: 2px solid #ddd;
+  border: 2px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -51,8 +53,8 @@
 }
 
 .input:focus {
-  border-color: var(--color-primary, #1DB954);
-  box-shadow: 0 0 0 4px rgba(29, 185, 84, 0.15);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
   transform: translateY(-2px);
 }
 
@@ -61,8 +63,8 @@
   right: 14px;
   width: 20px;
   height: 20px;
-  border: 3px solid #ddd;
-  border-top-color: var(--color-primary, #1DB954);
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }

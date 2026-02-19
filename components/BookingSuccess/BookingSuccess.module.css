@@ -14,27 +14,27 @@
 .iconWrapper {
   width: 80px;
   height: 80px;
-  background-color: var(--color-success, #2ecc71);
+  background-color: var(--color-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto var(--spacing-lg, 24px);
   animation: scaleInBounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+  box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7);
 }
 
 @keyframes scaleInBounce {
   0% { 
     transform: scale(0);
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0.7);
   }
   50% { 
-    box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+    box-shadow: 0 0 0 15px rgba(29, 185, 84, 0);
   }
   100% { 
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+    box-shadow: 0 0 0 0 rgba(29, 185, 84, 0);
   }
 }
 
@@ -46,18 +46,19 @@
 
 .title {
   font-size: var(--font-size-xl, 1.5rem);
-  color: var(--color-secondary, #191414);
+  color: var(--color-text);
   margin-bottom: 4px;
 }
 
 .subtitle {
   font-size: var(--font-size-md, 1rem);
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: var(--spacing-lg, 24px);
 }
 
 .summary {
-  background: #f9f9f9;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: var(--spacing-md, 16px);
   text-align: left;
@@ -78,8 +79,8 @@
 }
 
 .primaryBtn {
-  background-color: var(--color-primary, #1DB954);
-  color: #fff;
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -88,15 +89,17 @@
   transition: all 0.3s ease-in-out;
 }
 
-.primaryBtn:hover {
+.primaryBtn:hover,
+.primaryBtn:focus-visible {
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .secondaryBtn {
   background-color: transparent;
-  color: var(--color-primary, #1DB954);
-  border: 2px solid var(--color-primary, #1DB954);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
   padding: 12px 24px;
   border-radius: 8px;
   font-size: 1rem;
@@ -104,7 +107,9 @@
   transition: all 0.3s ease-in-out;
 }
 
-.secondaryBtn:hover {
-  background-color: var(--color-primary, #1DB954);
-  color: #fff;
+.secondaryBtn:hover,
+.secondaryBtn:focus-visible {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: var(--color-on-primary);
 }

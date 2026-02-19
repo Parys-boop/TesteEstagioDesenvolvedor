@@ -1,0 +1,38 @@
+:root {
+  --spotify-green: #1db954;
+  --spotify-green-light: #1ed760;
+  --spotify-white: #ffffff;
+  --spotify-black: #191414;
+
+  --color-bg: var(--spotify-white);
+  --color-surface: rgba(25, 20, 20, 0.04);
+  --color-surface-strong: rgba(25, 20, 20, 0.08);
+  --color-text: var(--spotify-black);
+  --color-text-muted: rgba(25, 20, 20, 0.7);
+  --color-border: rgba(25, 20, 20, 0.18);
+  --color-primary: var(--spotify-green);
+  --color-primary-hover: var(--spotify-green-light);
+  --color-on-primary: var(--spotify-white);
+  --color-toast: var(--spotify-black);
+  --color-toast-text: var(--spotify-white);
+  --color-focus-ring: rgba(30, 215, 96, 0.25);
+
+  --background: var(--color-bg);
+  --foreground: var(--color-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: var(--spotify-black);
+    --color-surface: rgba(255, 255, 255, 0.08);
+    --color-surface-strong: rgba(255, 255, 255, 0.12);
+    --color-text: var(--spotify-white);
+    --color-text-muted: rgba(255, 255, 255, 0.75);
+    --color-border: rgba(255, 255, 255, 0.18);
+    --color-toast: rgba(255, 255, 255, 0.12);
+    --color-toast-text: var(--spotify-white);
+
+    --background: var(--color-bg);
+    --foreground: var(--color-text);
+  }
+}
