@@ -1,9 +1,19 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import styles from './CTACreateEvent.module.css';
 
 const CTACreateEvent = () => {
+  const router = useRouter();
+  const { requireAuth } = useRequireAuth();
+
+  const handleCreateEvent = async () => {
+    await requireAuth(() => {
+      router.push('/eventos/criar');
+    });
+  };
+
   return (
     <section className={styles.section} id="cta-create-event" aria-label="Criar evento">
       <div className={styles.card}>
@@ -11,9 +21,9 @@ const CTACreateEvent = () => {
         <p>
           Encontre o artista ideal e organize todos os detalhes em poucos passos.
         </p>
-        <Link href="/criar-evento" className={styles.button}>
+        <button type="button" className={styles.button} onClick={handleCreateEvent}>
           Criar evento
-        </Link>
+        </button>
       </div>
     </section>
   );

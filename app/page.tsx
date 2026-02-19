@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import SearchHeader from '@/components/SearchHeader/SearchHeader';
 import SectionPopulares from '@/components/SectionPopulares/SectionPopulares';
 import SectionPorGenero from '@/components/SectionPorGenero/SectionPorGenero';
@@ -14,6 +15,7 @@ const SEARCH_LIMIT = 6;
 const DEBOUNCE_MS = 350;
 
 export default function Page() {
+  const { requireAuth } = useRequireAuth();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -76,9 +78,11 @@ export default function Page() {
     setIsModalOpen(false);
   };
 
-  const handleHireArtist = () => {
-    setIsModalOpen(false);
-    document.getElementById('cta-create-event')?.scrollIntoView({ behavior: 'smooth' });
+  const handleHireArtist = async () => {
+    await requireAuth(() => {
+      setIsModalOpen(false);
+      document.getElementById('cta-create-event')?.scrollIntoView({ behavior: 'smooth' });
+    });
   };
 
   return (

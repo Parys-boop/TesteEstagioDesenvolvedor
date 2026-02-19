@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/spotifyTheme.css";
+import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Plataforma de contratação de artistas",
@@ -35,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="antialiased">
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

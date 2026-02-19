@@ -6,6 +6,7 @@ import ArtistCard from '@/components/ArtistCard/ArtistCard';
 import BookingForm from '@/components/BookingForm/BookingForm';
 import BookingSuccess from '@/components/BookingSuccess/BookingSuccess';
 import BookingHistory from '@/components/BookingHistory/BookingHistory';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import { fetchArtists, fetchTrendingArtists } from '@/utils/api';
 import { getBookings, saveBooking } from '@/utils/storage';
 import styles from './Home.module.css';
@@ -30,6 +31,7 @@ const FLOW_STEPS = {
 };
 
 const Home = () => {
+  const { requireAuth } = useRequireAuth();
   // Navigation state / Estado de navegação
   const [flowStep, setFlowStep] = useState(FLOW_STEPS.SEARCH);
 
@@ -245,9 +247,11 @@ const Home = () => {
    * Handles artist selection by transitioning to booking view
    * Lida com seleção do artista transitando para visualização de contratação
    */
-  const handleSelectArtist = (artist) => {
-    setSelectedArtist(artist);
-    setFlowStep(FLOW_STEPS.BOOKING);
+  const handleSelectArtist = async (artist) => {
+    await requireAuth(() => {
+      setSelectedArtist(artist);
+      setFlowStep(FLOW_STEPS.BOOKING);
+    });
   };
 
   /**
@@ -285,8 +289,10 @@ const Home = () => {
    * Navigates to booking history view
    * Navega para visualização de histórico de contratações
    */
-  const handleViewHistory = () => {
-    setFlowStep(FLOW_STEPS.HISTORY);
+  const handleViewHistory = async () => {
+    await requireAuth(() => {
+      setFlowStep(FLOW_STEPS.HISTORY);
+    });
   };
 
   /**
