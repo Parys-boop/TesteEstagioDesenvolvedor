@@ -13,31 +13,31 @@ import styles from './BookingSuccess.module.css';
  */
 const BookingSuccess = ({ booking, onNewBooking, onViewHistory }) => {
   return (
-    <section className={styles.container} aria-label="Booking confirmation">
+    <section className={styles.container} aria-label="Confirmação da contratação">
       {/* Success icon animation / Animação do ícone de sucesso */}
       <div className={styles.iconWrapper}>
         <span className={styles.checkIcon}>✓</span>
       </div>
 
-      <h2 className={styles.title}>Booking Confirmed!</h2>
-      <p className={styles.subtitle}>Contratação Confirmada!</p>
+      <h2 className={styles.title}>Contratação confirmada!</h2>
+      <p className={styles.subtitle}>Seu pedido foi confirmado.</p>
 
       {/* Booking summary / Resumo da contratação */}
       <div className={styles.summary}>
-        <p><strong>Artist / Artista:</strong> {booking.selectedArtist.name}</p>
-        <p><strong>Client / Cliente:</strong> {booking.clientName}</p>
-        <p><strong>Date / Data:</strong> {new Date(booking.eventDate).toLocaleDateString('pt-BR')}</p>
-        {booking.fee && <p><strong>Fee / Cachê:</strong> R$ {Number(booking.fee).toLocaleString('pt-BR')}</p>}
-        {booking.address && <p><strong>Address / Endereço:</strong> {booking.address}</p>}
+        <p><strong>Artista:</strong> {booking.selectedArtist.name}</p>
+        <p><strong>Cliente:</strong> {booking.clientName}</p>
+        <p><strong>Data:</strong> {new Date(booking.eventDate).toLocaleDateString('pt-BR')}</p>
+        {booking.fee && <p><strong>Cachê:</strong> R$ {Number(booking.fee).toLocaleString('pt-BR')}</p>}
+        {booking.address && <p><strong>Endereço:</strong> {booking.address}</p>}
       </div>
 
       {/* Action buttons / Botões de ação */}
       <div className={styles.actions}>
         <button className={styles.primaryBtn} onClick={onNewBooking}>
-          New Booking / Nova Contratação
+          Nova contratação
         </button>
         <button className={styles.secondaryBtn} onClick={onViewHistory}>
-          View History / Ver Histórico
+          Ver histórico
         </button>
       </div>
     </section>

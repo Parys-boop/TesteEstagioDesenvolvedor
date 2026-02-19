@@ -17,20 +17,20 @@ const BookingHistory = ({ bookings, onBack }) => {
   );
 
   return (
-    <section className={styles.container} aria-label="Booking history">
+    <section className={styles.container} aria-label="Histórico de contratações">
       <header className={styles.header}>
-        <h2>Booking History / Histórico de Contratações</h2>
+        <h2>Histórico de contratações</h2>
         <button className={styles.backBtn} onClick={onBack}>
-          ← Back to Search / Voltar à Pesquisa
+          ← Voltar à pesquisa
         </button>
       </header>
 
       {/* Check if there are any bookings / Verifica se há contratações */}
       {orderedBookings.length === 0 ? (
         <div className={styles.empty}>
-          <p>No bookings found. / Nenhuma contratação encontrada.</p>
+          <p>Nenhuma contratação encontrada.</p>
           <button className={styles.backBtn} onClick={onBack}>
-            Make your first booking! / Faça sua primeira contratação!
+            Faça sua primeira contratação!
           </button>
         </div>
       ) : (
@@ -56,19 +56,19 @@ const BookingHistory = ({ bookings, onBack }) => {
 
               {/* Booking details / Detalhes da contratação */}
               <div className={styles.details}>
-                <p><strong>Client / Cliente:</strong> {booking.clientName}</p>
-                <p><strong>Date / Data:</strong> {new Date(booking.eventDate).toLocaleDateString('pt-BR')}</p>
+                <p><strong>Cliente:</strong> {booking.clientName}</p>
+                <p><strong>Data:</strong> {new Date(booking.eventDate).toLocaleDateString('pt-BR')}</p>
                 {booking.fee && (
-                  <p><strong>Fee / Cachê:</strong> R$ {Number(booking.fee).toLocaleString('pt-BR')}</p>
+                  <p><strong>Cachê:</strong> R$ {Number(booking.fee).toLocaleString('pt-BR')}</p>
                 )}
                 {booking.address && (
-                  <p><strong>Address / Endereço:</strong> {booking.address}</p>
+                  <p><strong>Endereço:</strong> {booking.address}</p>
                 )}
               </div>
 
               {/* Created timestamp / Data de criação */}
               <p className={styles.timestamp}>
-                Booked on / Contratado em: {new Date(booking.createdAt).toLocaleString('pt-BR')}
+                Contratado em: {new Date(booking.createdAt).toLocaleString('pt-BR')}
               </p>
             </li>
           ))}

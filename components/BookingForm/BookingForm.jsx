@@ -85,10 +85,10 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
     <form className={styles.form} onSubmit={handleSubmit} noValidate>
       <header className={styles.header}>
         <button type="button" className={styles.backBtn} onClick={onCancel}>
-          ← Back / Voltar
+          ← Voltar
         </button>
         <h2 className={styles.title}>
-          Book {selectedArtist.name} / Contratar {selectedArtist.name}
+          Contratar {selectedArtist.name}
         </h2>
       </header>
 
@@ -112,7 +112,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
       {/* Client name field (required) / Campo nome do cliente (obrigatório) */}
       <div className={styles.field}>
         <label htmlFor="clientName" className={styles.label}>
-          Name / Nome <span className={styles.required}>*</span>
+          Nome <span className={styles.required}>*</span>
         </label>
         <input
           id="clientName"
@@ -120,7 +120,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
           type="text"
           value={formData.clientName}
           onChange={handleChange}
-          placeholder="Your full name / Seu nome completo"
+          placeholder="Seu nome completo"
           className={`${styles.input} ${errors.clientName ? styles.inputError : ''}`}
           aria-required="true"
           aria-invalid={!!errors.clientName}
@@ -133,7 +133,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
       {/* Selected artist field (read-only, required) / Campo artista selecionado (somente leitura, obrigatório) */}
       <div className={styles.field}>
         <label htmlFor="selectedArtist" className={styles.label}>
-          Selected Artist / Artista Selecionado <span className={styles.required}>*</span>
+          Artista selecionado <span className={styles.required}>*</span>
         </label>
         <input
           id="selectedArtist"
@@ -148,7 +148,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
       {/* Fee field (optional) / Campo cachê (opcional) */}
       <div className={styles.field}>
         <label htmlFor="fee" className={styles.label}>
-          Fee / Cachê (R$)
+          Cachê (R$)
         </label>
         <input
           id="fee"
@@ -158,7 +158,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
           step="0.01"
           value={formData.fee}
           onChange={handleChange}
-          placeholder="Optional / Opcional"
+          placeholder="Opcional"
           className={`${styles.input} ${errors.fee ? styles.inputError : ''}`}
           aria-invalid={!!errors.fee}
         />
@@ -170,7 +170,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
       {/* Event date field (required) / Campo data do evento (obrigatório) */}
       <div className={styles.field}>
         <label htmlFor="eventDate" className={styles.label}>
-          Event Date / Data do Evento <span className={styles.required}>*</span>
+          Data do evento <span className={styles.required}>*</span>
         </label>
         <input
           id="eventDate"
@@ -191,14 +191,14 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
       {/* Address field (optional) / Campo endereço (opcional) */}
       <div className={styles.field}>
         <label htmlFor="address" className={styles.label}>
-          Address / Endereço
+          Endereço
         </label>
         <textarea
           id="address"
           name="address"
           value={formData.address}
           onChange={handleChange}
-          placeholder="Event address (optional) / Endereço do evento (opcional)"
+          placeholder="Endereço do evento (opcional)"
           className={styles.textarea}
           rows={3}
         />
@@ -206,7 +206,7 @@ const BookingForm = ({ selectedArtist, onSubmit, onCancel }) => {
 
       {/* Submit button / Botão de envio */}
       <button type="submit" className={styles.submitBtn}>
-        Submit Booking / Enviar Contratação
+        Enviar contratação
       </button>
     </form>
   );

@@ -34,13 +34,13 @@ const ArtistCard = ({ artist, onSelect }) => {
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
-      aria-label={`Select artist ${artist.name}`}
+      aria-label={`Selecionar artista ${artist.name}`}
     >
       {artist.image && (
         <div className={styles.imageWrapper}>
           <Image
             src={artist.image}
-            alt={`Photo of ${artist.name}`}
+            alt={`Foto de ${artist.name}`}
             className={styles.image}
             width={200}
             height={200}

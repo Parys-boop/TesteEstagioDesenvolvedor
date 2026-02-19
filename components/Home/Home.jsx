@@ -85,7 +85,7 @@ const Home = () => {
       if (error === 'rate_limit') {
         setToast({
           type: 'error',
-          message: 'Spotify rate limit reached. Try again soon / Limite da Spotify atingido. Tente novamente em instantes',
+          message: 'Limite da Spotify atingido. Tente novamente em instantes.',
         });
         return;
       }
@@ -95,7 +95,7 @@ const Home = () => {
       console.error('Failed to load trending artists / Falha ao carregar artistas em tendência:', error);
       setToast({
         type: 'error',
-        message: 'Could not load trending artists / Não foi possível carregar artistas em tendência',
+        message: 'Não foi possível carregar artistas em tendência.',
       });
     } finally {
       setIsLoading(false);
@@ -135,7 +135,7 @@ const Home = () => {
       setIsLoadingMore(false);
       setArtists([]);
       setPagination({ offset: 0, hasMore: false });
-      setErrorMessage('Type at least 2 characters / Digite pelo menos 2 caracteres');
+      setErrorMessage('Digite pelo menos 2 caracteres.');
       return;
     }
 
@@ -160,8 +160,8 @@ const Home = () => {
         if (error === 'rate_limit') {
           setArtists([]);
           setPagination({ offset: 0, hasMore: false });
-          setErrorMessage('Spotify rate limit reached. Try again soon / Limite da Spotify atingido. Tente novamente em instantes');
-          setToast({ type: 'error', message: 'Too many requests to Spotify / Muitas requisições para o Spotify' });
+          setErrorMessage('Limite da Spotify atingido. Tente novamente em instantes.');
+          setToast({ type: 'error', message: 'Muitas requisições para o Spotify.' });
           return;
         }
 
@@ -175,8 +175,8 @@ const Home = () => {
         if (!cancelled) {
           setArtists([]);
           setPagination({ offset: 0, hasMore: false });
-          setErrorMessage('Unable to load artists right now / Não foi possível carregar artistas no momento');
-          setToast({ type: 'error', message: 'Search failed / Falha na busca' });
+          setErrorMessage('Não foi possível carregar artistas no momento.');
+          setToast({ type: 'error', message: 'Falha na busca.' });
         }
       } finally {
         if (!cancelled) {
@@ -223,7 +223,7 @@ const Home = () => {
       }
 
       if (error === 'rate_limit') {
-        setToast({ type: 'error', message: 'Too many requests to Spotify / Muitas requisições para o Spotify' });
+        setToast({ type: 'error', message: 'Muitas requisições para o Spotify.' });
         return;
       }
 
@@ -232,10 +232,10 @@ const Home = () => {
         offset: nextOffset ?? pagination.offset + pageArtists.length,
         hasMore: pageHasMore,
       });
-      setToast({ type: 'success', message: 'Loaded more artists / Mais artistas carregados' });
+      setToast({ type: 'success', message: 'Mais artistas carregados.' });
     } catch (error) {
       console.error('Pagination error / Erro na paginação:', error);
-      setToast({ type: 'error', message: 'Could not load more artists / Não foi possível carregar mais artistas' });
+      setToast({ type: 'error', message: 'Não foi possível carregar mais artistas.' });
     } finally {
       setIsLoadingMore(false);
     }
@@ -265,7 +265,7 @@ const Home = () => {
     // Show success message / Mostra mensagem de sucesso
     setToast({
       type: 'success',
-      message: 'Booking confirmed! / Contratação confirmada!',
+      message: 'Contratação confirmada!',
     });
 
     // Navigate to success view / Navega para visualização de sucesso
@@ -304,10 +304,10 @@ const Home = () => {
       {/* Header - always visible / Header - sempre visível */}
       <header className={styles.header}>
         <h1 className={styles.title}>
-          Artist Booking Platform / Plataforma de Contratação de Artistas
+          Plataforma de contratação de artistas
         </h1>
         <p className={styles.subtitle}>
-          Discover and book your favorite artists / Descubra e contrate seus artistas favoritos
+          Descubra e contrate seus artistas favoritos
         </p>
         <div className={styles.headerActions}>
           <button
@@ -315,7 +315,7 @@ const Home = () => {
             className={styles.historyButton}
             onClick={handleViewHistory}
           >
-            Booking History / Histórico de Contratações
+            Histórico de contratações
             {bookings.length > 0 && ` (${bookings.length})`}
           </button>
         </div>
@@ -344,8 +344,8 @@ const Home = () => {
                 <div className={styles.noResults}>
                   <p>
                     {hasSearched
-                      ? 'No artists found / Nenhum artista encontrado'
-                      : 'Search for artists to get started / Pesquise artistas para começar'}
+                      ? 'Nenhum artista encontrado'
+                      : 'Pesquise artistas para começar'}
                   </p>
                   {errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>}
                 </div>
@@ -355,7 +355,7 @@ const Home = () => {
                 <>
                   {isTrendingView && (
                     <h3 className={styles.sectionTitle}>
-                      ? Trending Now / Tendência Agora
+                      Em alta agora
                     </h3>
                   )}
                   <div className={styles.grid}>
@@ -379,8 +379,8 @@ const Home = () => {
                     disabled={isLoadingMore}
                   >
                     {isLoadingMore
-                      ? 'Loading more / Carregando mais'
-                      : 'Load more artists / Carregar mais artistas'}
+                      ? 'Carregando mais'
+                      : 'Carregar mais artistas'}
                   </button>
                 </div>
               )}
@@ -426,7 +426,7 @@ const Home = () => {
             type="button"
             className={styles.toastClose}
             onClick={() => setToast(null)}
-            aria-label="Close notification"
+            aria-label="Fechar notificação"
           >
             ?
           </button>

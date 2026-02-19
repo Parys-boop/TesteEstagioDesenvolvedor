@@ -23,22 +23,22 @@ const SearchBar = ({ value = '', onSearch, isLoading }) => {
   return (
     <div className={styles.wrapper}>
       <label htmlFor="artist-search" className={styles.label}>
-        Search Artists / Pesquisar Artistas
+        Pesquisar artistas
       </label>
       <div className={styles.inputContainer}>
         <span className={styles.searchIcon} aria-hidden="true">?</span>
         <input
           id="artist-search"
           type="text"
-          placeholder="Search for artists or genres... / Pesquise artistas ou gêneros..."
+          placeholder="Pesquise artistas ou gêneros..."
           value={value}
           onChange={handleInputChange}
           className={styles.input}
-          aria-label="Search for artists"
+          aria-label="Pesquisar artistas"
           autoComplete="off"
         />
         {/* Loading spinner shown during search / Spinner de carregamento durante pesquisa */}
-        {isLoading && <span className={styles.spinner} aria-label="Loading"></span>}
+        {isLoading && <span className={styles.spinner} aria-label="Carregando"></span>}
       </div>
     </div>
   );
