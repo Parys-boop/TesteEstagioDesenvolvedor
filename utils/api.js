@@ -84,3 +84,13 @@ export async function fetchTrendingArtists(limit = 10) {
     return { artists: [] };
   }
 }
+
+export async function fetchArtistasPopulares(limit = 8) {
+  const response = await fetchArtists({ query: 'pop', offset: 0, limit });
+  return response;
+}
+
+export async function fetchArtistasPorGenero(genero, limit = 6) {
+  const response = await fetchArtists({ query: genero, offset: 0, limit });
+  return response;
+}

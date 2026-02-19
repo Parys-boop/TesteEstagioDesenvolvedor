@@ -1,0 +1,47 @@
+.section {
+  padding: 16px 0 40px;
+}
+
+.genreBlock {
+  margin-bottom: 32px;
+}
+
+.genreTitle {
+  margin: 0 0 16px;
+  font-size: 1.35rem;
+  color: var(--color-text);
+}
+
+.grid,
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.skeletonCard {
+  height: 220px;
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 20, 20, 0.08) 25%,
+    rgba(25, 20, 20, 0.18) 50%,
+    rgba(25, 20, 20, 0.08) 75%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.error {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

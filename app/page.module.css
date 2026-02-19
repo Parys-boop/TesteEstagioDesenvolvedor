@@ -1,0 +1,43 @@
+.page {
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.searchSection {
+  padding: 8px 0 24px;
+}
+
+.searchTitle {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.searchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.searchMessage {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+  }
+}

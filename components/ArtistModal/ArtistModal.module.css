@@ -1,0 +1,71 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-radius: 16px;
+  padding: 24px;
+  width: min(480px, 100%);
+  border: 1px solid var(--color-border);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.image {
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.name {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+}
+
+.genre {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.hireButton {
+  width: 100%;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hireButton:hover,
+.hireButton:focus-visible {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
