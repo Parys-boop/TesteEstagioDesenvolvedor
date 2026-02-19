@@ -80,7 +80,7 @@ export async function GET(request) {
           name: artist.name,
           // Pega a imagem média (index 1) ou a primeira, ou placeholder
           image: artist.images?.[1]?.url || artist.images?.[0]?.url || 'https://via.placeholder.com/300?text=Sem+Imagem',
-          genre: artist.genres?.[0] || 'Gênero não listado',a
+          genre: artist.genres?.[0] || 'Gênero não listado',
         };
         return mapped;
       } catch (mapError) {

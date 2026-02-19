@@ -39,3 +39,33 @@ export async function fetchArtists({ query, offset = 0, limit = 20 }) {
     return { artists: [], hasMore: false, nextOffset: offset };
   }
 }
+
+/**
+ * Fetches trending/popular artists from Spotify
+ * Busca artistas em tendência/populares do Spotify
+ *
+ * Searches for popular genres and uses them to fetch trending artists
+ * Pesquisa gêneros populares e os usa para buscar artistas em tendência
+ *
+ * @param {number} [limit=20] - Number of artists to fetch / Número de artistas a buscar
+ * @returns {Promise<Array>} Array of trending artists / Array de artistas em tendência
+ */
+export async function fetchTrendingArtists(limit = 20) {
+  try {
+    // Popular search terms that typically return trending artists
+    // Termos de busca populares que normalmente retornam artistas em tendência
+    const trendingQueries = ['pop', 'hip-hop', 'rock', 'edm', 'indie'];
+    
+    // Pick a random query to vary the results / Escolhe uma query aleatória para variar os resultados
+    const randomQuery = trendingQueries[Math.floor(Math.random() * trendingQueries.length)];
+    
+    const response = await axios.get('/api/searchArtists', {
+      params: { q: randomQuery, offset: 0, limit },
+    });
+
+    return response.data.artists || [];
+  } catch (error) {
+    console.error('Trending artists API error / Erro ao buscar artistas em tendência:', error);
+    return [];
+  }
+}
