@@ -39,7 +39,10 @@ export function saveBooking(booking) {
   // Gera um id único para a contratação
   const newBooking = {
     ...booking,
-    id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+    id:
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : Date.now().toString(),
     createdAt: new Date().toISOString(),
   };
 

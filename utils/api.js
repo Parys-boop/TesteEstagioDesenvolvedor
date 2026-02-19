@@ -4,6 +4,13 @@
  */
 import axios from 'axios'; // Ensure axios is installed / Garanta que o axios está instalado
 
+const isRateLimitError = (error) => {
+  const status = error?.response?.status;
+  const apiStatus = error?.response?.data?.error?.status;
+  const message = error?.response?.data?.error?.message || error?.message || '';
+  return status === 429 || apiStatus === 429 || /rate\s*limit/i.test(message);
+};
+
 /**
  * Fetches artists based only on Spotify API results
  * Busca artistas apenas com base nos resultados da API do Spotify
@@ -12,7 +19,7 @@ import axios from 'axios'; // Ensure axios is installed / Garanta que o axios es
  * @param {string} options.query - Search term / Termo de busca
  * @param {number} [options.offset=0] - Pagination offset / Deslocamento para paginação
  * @param {number} [options.limit=20] - Page size / Tamanho da página
- * @returns {Promise<{artists: Array, hasMore: boolean, nextOffset: number}>} Paginated artists / Artistas paginados
+ * @returns {Promise<{artists: Array, hasMore: boolean, nextOffset: number, error?: string}>} Paginated artists / Artistas paginados
  */
 export async function fetchArtists({ query, offset = 0, limit = 20 }) {
   // If there is no search term, return empty list (no local mock)
@@ -32,6 +39,10 @@ export async function fetchArtists({ query, offset = 0, limit = 20 }) {
     // Retorna artistas diretamente da resposta da API
     return response.data;
   } catch (error) {
+    if (isRateLimitError(error)) {
+      return { artists: [], hasMore: false, nextOffset: offset, error: 'rate_limit' };
+    }
+
     console.error('Spotify API error, returning empty list / Erro na API do Spotify, retornando lista vazia:', error);
 
     // On any error we return an empty list (no hardcoded artists)
@@ -48,24 +59,28 @@ export async function fetchArtists({ query, offset = 0, limit = 20 }) {
  * Pesquisa gêneros populares e os usa para buscar artistas em tendência
  *
  * @param {number} [limit=20] - Number of artists to fetch / Número de artistas a buscar
- * @returns {Promise<Array>} Array of trending artists / Array de artistas em tendência
+ * @returns {Promise<{artists: Array, error?: string}>} Array of trending artists / Array de artistas em tendência
  */
-export async function fetchTrendingArtists(limit = 20) {
+export async function fetchTrendingArtists(limit = 10) {
   try {
     // Popular search terms that typically return trending artists
     // Termos de busca populares que normalmente retornam artistas em tendência
     const trendingQueries = ['pop', 'hip-hop', 'rock', 'edm', 'indie'];
-    
+
     // Pick a random query to vary the results / Escolhe uma query aleatória para variar os resultados
     const randomQuery = trendingQueries[Math.floor(Math.random() * trendingQueries.length)];
-    
+
     const response = await axios.get('/api/searchArtists', {
       params: { q: randomQuery, offset: 0, limit },
     });
 
-    return response.data.artists || [];
+    return { artists: response.data.artists || [] };
   } catch (error) {
+    if (isRateLimitError(error)) {
+      return { artists: [], error: 'rate_limit' };
+    }
+
     console.error('Trending artists API error / Erro ao buscar artistas em tendência:', error);
-    return [];
+    return { artists: [] };
   }
 }

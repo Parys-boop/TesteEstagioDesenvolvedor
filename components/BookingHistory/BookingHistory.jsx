@@ -12,6 +12,10 @@ import styles from './BookingHistory.module.css';
  * @param {Function} onBack - Callback to return to search / Callback para retornar à pesquisa
  */
 const BookingHistory = ({ bookings, onBack }) => {
+  const orderedBookings = [...bookings].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   return (
     <section className={styles.container} aria-label="Booking history">
       <header className={styles.header}>
@@ -22,7 +26,7 @@ const BookingHistory = ({ bookings, onBack }) => {
       </header>
 
       {/* Check if there are any bookings / Verifica se há contratações */}
-      {bookings.length === 0 ? (
+      {orderedBookings.length === 0 ? (
         <div className={styles.empty}>
           <p>No bookings found. / Nenhuma contratação encontrada.</p>
           <button className={styles.backBtn} onClick={onBack}>
@@ -31,7 +35,7 @@ const BookingHistory = ({ bookings, onBack }) => {
         </div>
       ) : (
         <ul className={styles.list}>
-          {bookings.map((booking, index) => (
+          {orderedBookings.map((booking, index) => (
             <li key={booking.id || index} className={styles.item}>
               {/* Artist image and info / Imagem e informações do artista */}
               <div className={styles.artistInfo}>

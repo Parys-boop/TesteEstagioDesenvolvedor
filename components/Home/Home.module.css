@@ -25,6 +25,30 @@
   margin: 0;
 }
 
+.headerActions {
+  margin-top: var(--spacing-md, 16px);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm, 8px);
+}
+
+.historyButton {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: var(--spacing-sm, 8px) var(--spacing-lg, 24px);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.historyButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
 .main {
   max-width: 1200px;
   margin: 0 auto;
