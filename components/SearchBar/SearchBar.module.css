@@ -1,8 +1,8 @@
 /* SearchBar styles / Estilos do SearchBar */
 
 .wrapper {
-  margin-bottom: var(--spacing-lg, 24px);
-  animation: slideDown 0.4s ease-out;
+  margin: 0;
+  width: 100%;
 }
 
 @keyframes slideDown {
@@ -16,51 +16,39 @@
   }
 }
 
-.label {
-  display: block;
-  font-size: var(--font-size-sm, 0.875rem);
-  color: var(--color-text-muted);
-  margin-bottom: var(--spacing-xs, 4px);
-}
-
 .inputContainer {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.searchIcon {
-  position: absolute;
-  left: 14px;
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
-}
-
-.inputContainer:focus-within .searchIcon {
-  transform: scale(1.1);
-}
-
 .input {
   width: 100%;
-  padding: 14px 14px 14px 44px;
-  border: 2px solid var(--color-border);
-  background: var(--color-surface);
+  min-height: 48px;
+  padding: 0 44px 0 16px;
+  border: 2px solid var(--spotify-primary);
+  background: color-mix(in srgb, var(--spotify-primary) 6%, var(--color-surface));
   color: var(--color-text);
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 1rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   outline: none;
 }
 
 .input:focus {
-  border-color: var(--color-primary-hover);
-  box-shadow: 0 0 0 4px var(--color-focus-ring);
-  transform: translateY(-2px);
+  border-color: var(--spotify-secondary);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--spotify-secondary) 28%, transparent);
+  background: color-mix(in srgb, var(--spotify-primary) 10%, var(--color-surface));
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
 }
 
 .spinner {
   position: absolute;
-  right: 14px;
+  right: 16px;
   width: 20px;
   height: 20px;
   border: 3px solid var(--color-border);

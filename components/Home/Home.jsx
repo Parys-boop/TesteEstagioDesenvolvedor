@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import ArtistCard from '@/components/ArtistCard/ArtistCard';
 import BookingForm from '@/components/BookingForm/BookingForm';
@@ -32,6 +33,7 @@ const FLOW_STEPS = {
 
 const Home = () => {
   const { requireAuth } = useRequireAuth();
+  const isAuthenticated = false;
   // Navigation state / Estado de navegação
   const [flowStep, setFlowStep] = useState(FLOW_STEPS.SEARCH);
 
@@ -309,34 +311,48 @@ const Home = () => {
     <div className={styles.container}>
       {/* Header - always visible / Header - sempre visível */}
       <header className={styles.header}>
-        <h1 className={styles.title}>
-          Plataforma de contratação de artistas
-        </h1>
-        <p className={styles.subtitle}>
-          Descubra e contrate seus artistas favoritos
-        </p>
-        <div className={styles.headerActions}>
-          <button
-            type="button"
-            className={styles.historyButton}
-            onClick={handleViewHistory}
-          >
-            Histórico de contratações
-            {bookings.length > 0 && ` (${bookings.length})`}
-          </button>
+        <div className={styles.headerTop}>
+          <div className={styles.authActions}>
+            {!isAuthenticated && (
+              <>
+                <Link className={styles.authButton} href="/login">
+                  Entrar
+                </Link>
+                <Link className={styles.authButton} href="/cadastro">
+                  Cadastrar
+                </Link>
+              </>
+            )}
+          </div>
+
+          <div className={styles.searchSlot}>
+            <SearchBar
+              value={query}
+              onSearch={handleSearch}
+              isLoading={isLoading || isLoadingMore}
+            />
+          </div>
+
+          <div className={styles.headerActions}>
+            <button
+              type="button"
+              className={styles.historyButton}
+              onClick={handleViewHistory}
+            >
+              Histórico
+              {bookings.length > 0 && ` (${bookings.length})`}
+            </button>
+          </div>
         </div>
+
+        <h1 className={styles.title}>Plataforma de contratação de artistas</h1>
+        <p className={styles.subtitle}>Descubra e contrate seus artistas favoritos</p>
       </header>
 
       <main className={styles.main}>
         {/* View: Search & Results / Visualização: Pesquisa e Resultados */}
         {flowStep === FLOW_STEPS.SEARCH && (
           <>
-            <SearchBar
-              value={query}
-              onSearch={handleSearch}
-              isLoading={isLoading || isLoadingMore}
-            />
-
             <section className={styles.results}>
               {isLoading && (
                 <div className={styles.skeletonGrid} aria-hidden="true">

@@ -22,15 +22,11 @@ const SearchBar = ({ value = '', onSearch, isLoading }) => {
 
   return (
     <div className={styles.wrapper}>
-      <label htmlFor="artist-search" className={styles.label}>
-        Pesquisar artistas
-      </label>
       <div className={styles.inputContainer}>
-        <span className={styles.searchIcon} aria-hidden="true">?</span>
         <input
           id="artist-search"
           type="text"
-          placeholder="Pesquise artistas ou gêneros..."
+          placeholder="Pesquisar artista"
           value={value}
           onChange={handleInputChange}
           className={styles.input}
