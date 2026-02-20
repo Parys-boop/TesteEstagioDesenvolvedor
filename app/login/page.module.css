@@ -1,0 +1,130 @@
+.page {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: var(--color-bg);
+}
+
+.card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--spotify-white);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(25, 20, 20, 0.08);
+}
+
+.title {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  color: var(--spotify-black);
+}
+
+.subtitle {
+  margin: 0 0 18px;
+  color: #4a4a4a;
+  font-size: 0.95rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 600;
+  color: var(--spotify-black);
+}
+
+.field input {
+  border: 1px solid #bfbfbf;
+  border-radius: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 1rem;
+  color: var(--spotify-black);
+  background: var(--spotify-white);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--spotify-green-light);
+  box-shadow: 0 0 0 3px rgba(30, 215, 96, 0.2);
+}
+
+.error {
+  font-size: 0.85rem;
+  color: #c22222;
+}
+
+.submit {
+  margin-top: 8px;
+  min-height: 46px;
+  border: none;
+  border-radius: 999px;
+  background: var(--spotify-green);
+  color: var(--spotify-white);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit:hover,
+.submit:focus-visible {
+  background: var(--spotify-green-light);
+}
+
+.submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.signupHint {
+  margin: 16px 0 0;
+  font-size: 0.95rem;
+  color: #4a4a4a;
+}
+
+.signupLink {
+  color: var(--spotify-green);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signupLink:hover,
+.signupLink:focus-visible {
+  color: var(--spotify-green-light);
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: #2a2423;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .title,
+  .field label,
+  .field input {
+    color: var(--spotify-white);
+  }
+
+  .subtitle,
+  .signupHint {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .field input {
+    border-color: rgba(255, 255, 255, 0.28);
+    background: #211c1b;
+  }
+}
