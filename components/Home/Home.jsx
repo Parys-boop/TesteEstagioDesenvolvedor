@@ -8,7 +8,7 @@ import BookingForm from '@/components/BookingForm/BookingForm';
 import BookingSuccess from '@/components/BookingSuccess/BookingSuccess';
 import BookingHistory from '@/components/BookingHistory/BookingHistory';
 import useRequireAuth from '@/hooks/useRequireAuth';
-import { fetchArtists, fetchTrendingArtists } from '@/utils/api';
+import { fetchArtists, fetchArtistasPopulares } from '@/utils/api';
 import { getBookings, saveBooking } from '@/utils/storage';
 import styles from './Home.module.css';
 
@@ -39,7 +39,7 @@ const Home = () => {
 
   // Search & artist list state / Estado de pesquisa e lista de artistas
   const [artists, setArtists] = useState([]);
-  const [trendingArtists, setTrendingArtists] = useState([]);
+  const [popularArtists, setPopularArtists] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState(null);
@@ -56,7 +56,7 @@ const Home = () => {
   const requestIdRef = useRef(0);
 
   const trimmedQuery = debouncedQuery.trim();
-  const isTrendingView = trimmedQuery.length === 0;
+  const isPopularView = trimmedQuery.length === 0;
   const hasSearched = trimmedQuery.length > 0;
 
   // Load persisted bookings on component mount / Carrega contratações persistidas ao montar
@@ -76,16 +76,16 @@ const Home = () => {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  const showTrendingArtists = useCallback((artistsList) => {
+  const showPopularArtists = useCallback((artistsList) => {
     setArtists(artistsList);
     setPagination({ offset: artistsList.length, hasMore: false });
   }, []);
 
-  const loadTrendingArtists = useCallback(async () => {
+  const loadPopularArtists = useCallback(async () => {
     setIsLoading(true);
     setErrorMessage(null);
     try {
-      const { artists: trending, error } = await fetchTrendingArtists(PAGE_SIZE);
+      const { artists: popular, error } = await fetchArtistasPopulares(PAGE_SIZE);
       if (error === 'rate_limit') {
         setToast({
           type: 'error',
@@ -93,18 +93,18 @@ const Home = () => {
         });
         return;
       }
-      setTrendingArtists(trending);
-      showTrendingArtists(trending);
+      setPopularArtists(popular);
+      showPopularArtists(popular);
     } catch (error) {
-      console.error('Failed to load trending artists / Falha ao carregar artistas em tendência:', error);
+      console.error('Failed to load popular artists / Falha ao carregar artistas populares:', error);
       setToast({
         type: 'error',
-        message: 'Não foi possível carregar artistas em tendência.',
+        message: 'Não foi possível carregar artistas populares.',
       });
     } finally {
       setIsLoading(false);
     }
-  }, [showTrendingArtists]);
+  }, [showPopularArtists]);
 
   // Toast auto-dismiss effect / Efeito auto-dismiss do toast
   useEffect(() => {
@@ -121,15 +121,15 @@ const Home = () => {
    * Efeito para buscar artistas sempre que a busca ativa muda
    */
   useEffect(() => {
-    if (isTrendingView) {
-      // If no query, show trending artists / Se sem query, mostra artistas em tendência
+    if (isPopularView) {
+      // If no query, show popular artists / Se sem query, mostra artistas populares
       setIsLoading(false);
       setIsLoadingMore(false);
       setErrorMessage(null);
-      if (trendingArtists.length > 0) {
-        showTrendingArtists(trendingArtists);
+      if (popularArtists.length > 0) {
+        showPopularArtists(popularArtists);
       } else {
-        loadTrendingArtists();
+        loadPopularArtists();
       }
       return;
     }
@@ -194,7 +194,7 @@ const Home = () => {
     return () => {
       cancelled = true;
     };
-  }, [isTrendingView, trimmedQuery, loadTrendingArtists, showTrendingArtists, trendingArtists]);
+  }, [isPopularView, trimmedQuery, loadPopularArtists, showPopularArtists, popularArtists]);
 
   /**
    * Handles search functionality
@@ -362,7 +362,7 @@ const Home = () => {
                 </div>
               )}
 
-              {!isLoading && artists.length === 0 && !isTrendingView && (
+              {!isLoading && artists.length === 0 && !isPopularView && (
                 <div className={styles.noResults}>
                   <p>
                     {hasSearched
@@ -375,9 +375,9 @@ const Home = () => {
 
               {!isLoading && artists.length > 0 && (
                 <>
-                  {isTrendingView && (
+                  {isPopularView && (
                     <h3 className={styles.sectionTitle}>
-                      Em alta agora
+                      Artistas populares
                     </h3>
                   )}
                   <div className={styles.grid}>
@@ -392,7 +392,7 @@ const Home = () => {
                 </>
               )}
 
-              {pagination.hasMore && !isLoading && !isTrendingView && (
+              {pagination.hasMore && !isLoading && !isPopularView && (
                 <div className={styles.loadMoreWrapper}>
                   <button
                     type="button"
@@ -406,6 +406,16 @@ const Home = () => {
                   </button>
                 </div>
               )}
+            </section>
+
+            <section className={styles.ctaSection} aria-label="Pronto para criar seu evento">
+              <h2 className={styles.ctaTitle}>Pronto para criar seu evento?</h2>
+              <p className={styles.ctaText}>
+                Organize seu evento com artistas incríveis e confirme sua contratação em poucos passos.
+              </p>
+              <Link href="/login" className={styles.ctaButton}>
+                Criar evento
+              </Link>
             </section>
           </>
         )}

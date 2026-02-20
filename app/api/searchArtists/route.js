@@ -71,6 +71,7 @@ export async function GET(request) {
           if (!artist || !artist.id || !artist.name) {
             return null;
           }
+          const genres = Array.isArray(artist.genres) ? artist.genres : [];
           return {
             id: artist.id,
             name: artist.name,
@@ -79,7 +80,8 @@ export async function GET(request) {
               artist.images?.[1]?.url ||
               artist.images?.[0]?.url ||
               'https://via.placeholder.com/300?text=Sem+Imagem',
-            genre: artist.genres?.[0] || 'Gênero não listado',
+            genre: genres[0] || 'Gênero não listado',
+            genres,
           };
         } catch (mapError) {
           console.error(`Error mapping artist ${idx}:`, mapError?.message || mapError);

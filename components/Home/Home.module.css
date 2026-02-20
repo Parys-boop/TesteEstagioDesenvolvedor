@@ -43,7 +43,7 @@
 .authActions {
   display: flex;
   gap: var(--spacing-sm, 8px);
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .authButton {
@@ -152,6 +152,7 @@
   border-radius: 12px;
   padding: var(--spacing-lg, 24px);
   min-height: 400px;
+  margin-bottom: var(--spacing-lg, 24px);
 }
 
 .sectionTitle {
@@ -159,6 +160,7 @@
   color: var(--color-text);
   margin-bottom: var(--spacing-lg, 24px);
   margin-top: 0;
+  letter-spacing: 0.2px;
   animation: slideDown 0.4s ease-out;
 }
 
@@ -176,9 +178,10 @@
 }
 
 .skeletonCard {
-  height: 220px;
-  border-radius: 12px;
-  background: linear-gradient(90deg, rgba(150, 150, 150, 0.15) 25%, rgba(150, 150, 150, 0.3) 50%, rgba(150, 150, 150, 0.15) 75%);
+  height: 290px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  background: linear-gradient(90deg, rgba(29, 185, 84, 0.08) 25%, rgba(29, 185, 84, 0.18) 50%, rgba(29, 185, 84, 0.08) 75%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease-in-out infinite;
 }
@@ -232,6 +235,51 @@
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+.ctaSection {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 15%, var(--color-surface)),
+    var(--color-surface)
+  );
+  border: 1px solid color-mix(in srgb, var(--color-primary-hover) 40%, var(--color-border));
+  border-radius: 12px;
+  padding: var(--spacing-lg, 24px);
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-xs, 4px);
+}
+
+.ctaText {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--spacing-md, 16px);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 var(--spacing-xl, 32px);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--color-primary);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.ctaButton:hover,
+.ctaButton:focus-visible {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  transform: translateY(-1px);
 }
 
 .toast {
@@ -401,12 +449,12 @@
   }
 
   .authActions {
-    grid-column: 1;
-    justify-content: flex-start;
+    grid-column: 3;
+    justify-content: flex-end;
   }
 
   .headerActions {
-    grid-column: 3;
-    justify-content: flex-end;
+    grid-column: 1;
+    justify-content: flex-start;
   }
 }
