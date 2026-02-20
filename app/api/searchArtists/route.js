@@ -71,7 +71,9 @@ export async function GET(request) {
           if (!artist || !artist.id || !artist.name) {
             return null;
           }
-          const genres = Array.isArray(artist.genres) ? artist.genres : [];
+          const genres = Array.isArray(artist.genres)
+            ? artist.genres.filter((item) => typeof item === 'string' && item.trim().length > 0)
+            : [];
           return {
             id: artist.id,
             name: artist.name,
@@ -80,7 +82,7 @@ export async function GET(request) {
               artist.images?.[1]?.url ||
               artist.images?.[0]?.url ||
               'https://via.placeholder.com/300?text=Sem+Imagem',
-            genre: genres[0] || 'Gênero não listado',
+            genre: genres.length > 0 ? genres.join(', ') : null,
             genres,
           };
         } catch (mapError) {

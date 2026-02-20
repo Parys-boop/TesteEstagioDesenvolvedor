@@ -16,9 +16,9 @@ import styles from './ArtistCard.module.css';
  * @param {Function} onSelect - Callback when artist card is clicked / Callback quando card do artista é clicado
  */
 const ArtistCard = ({ artist, onSelect }) => {
-  const genres = Array.isArray(artist.genres) && artist.genres.length > 0
-    ? artist.genres.slice(0, 3)
-    : [artist.genre || 'Gênero não listado'];
+  const genresText = Array.isArray(artist.genres) && artist.genres.length > 0
+    ? artist.genres.join(', ')
+    : artist.genre || 'Gênero não informado';
 
   /**
    * Handles keyboard interaction for accessibility
@@ -53,13 +53,9 @@ const ArtistCard = ({ artist, onSelect }) => {
         </div>
       )}
       <h3 className={styles.name}>{artist.name}</h3>
-      <ul className={styles.genreList} aria-label="Gêneros musicais">
-        {genres.map((genre) => (
-          <li key={genre} className={styles.genre}>
-            {genre}
-          </li>
-        ))}
-      </ul>
+      <p className={styles.genre} aria-label="Gêneros musicais">
+        {genresText}
+      </p>
     </article>
   );
 };
