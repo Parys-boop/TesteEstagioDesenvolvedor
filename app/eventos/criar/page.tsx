@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { fetchArtists } from '@/utils/api';
 import styles from './page.module.css';
@@ -15,6 +16,7 @@ const getMinDate = () => {
 };
 
 export default function CreateEventPage() {
+  const router = useRouter();
   const [titulo, setTitulo] = useState('');
   const [data, setData] = useState('');
   const [local, setLocal] = useState('');
@@ -142,11 +144,23 @@ export default function CreateEventPage() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) {
-        throw new Error('Falha ao salvar evento.');
+      const dataResponse = await response.json().catch(() => ({}));
+
+      if (response.status === 401) {
+        router.push('/auth/login');
+        return;
       }
 
-      setToast({ type: 'success', message: 'Evento salvo com sucesso.' });
+      if (!response.ok) {
+        const mensagem = dataResponse?.erro?.mensagem || 'Nao foi possivel salvar o evento.';
+        setToast({ type: 'error', message: mensagem });
+        return;
+      }
+
+      setToast({
+        type: 'success',
+        message: dataResponse?.mensagem || 'Evento salvo com sucesso.',
+      });
       setTitulo('');
       setData('');
       setLocal('');
@@ -154,7 +168,7 @@ export default function CreateEventPage() {
       setArtistaQuery('');
       setSearchResults([]);
     } catch (error) {
-      setToast({ type: 'error', message: 'Não foi possível salvar o evento.' });
+      setToast({ type: 'error', message: 'Nao foi possivel salvar o evento.' });
     } finally {
       setIsSaving(false);
     }

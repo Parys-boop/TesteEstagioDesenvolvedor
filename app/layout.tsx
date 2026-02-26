@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/spotifyTheme.css";
-import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
+import AppSessionProvider from "@/components/SessionProvider";
 import Footer from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
@@ -37,12 +37,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="antialiased">
-        <AuthProvider>
+        <AppSessionProvider>
           <div className="appShell">
             <main className="appMain">{children}</main>
             <Footer />
           </div>
-        </AuthProvider>
+        </AppSessionProvider>
       </body>
     </html>
   );

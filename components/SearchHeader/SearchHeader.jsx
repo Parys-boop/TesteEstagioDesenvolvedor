@@ -1,13 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useAuth } from '@/components/AuthProvider/AuthProvider';
+import { useSession } from 'next-auth/react';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import styles from './SearchHeader.module.css';
 
 const SearchHeader = ({ value, onSearch, isLoading }) => {
-  const { usuario, carregando } = useAuth();
-  const showAuthActions = !carregando && !usuario;
+  const { status } = useSession();
+  const showAuthActions = status !== 'authenticated';
 
   return (
     <header className={styles.header}>
@@ -15,10 +15,10 @@ const SearchHeader = ({ value, onSearch, isLoading }) => {
         <div className={styles.authActions}>
           {showAuthActions && (
             <>
-              <Link className={styles.authButton} href="/login">
+              <Link className={styles.authButton} href="/auth/login">
                 Entrar
               </Link>
-              <Link className={styles.authButton} href="/cadastro">
+              <Link className={styles.authButton} href="/auth/cadastro">
                 Cadastrar
               </Link>
             </>

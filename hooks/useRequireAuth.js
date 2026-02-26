@@ -1,32 +1,32 @@
+'use client';
+
 import { useCallback } from 'react';
-import { useAuth } from '@/components/AuthProvider/AuthProvider';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const useRequireAuth = () => {
-  const { usuario, carregando, verificarSessao, abrirLogin } = useAuth();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === 'authenticated';
 
   const requireAuth = useCallback(
     async (action) => {
-      if (!usuario) {
-        const ok = await verificarSessao();
-        if (ok) {
-          action?.();
-          return true;
-        }
+      if (status === 'loading') {
+        return false;
       }
 
-      if (usuario) {
-        action?.();
-        return true;
+      if (!isAuthenticated) {
+        router.push('/auth/login');
+        return false;
       }
 
-      return new Promise((resolve) => {
-        abrirLogin(action, resolve);
-      });
+      action?.();
+      return true;
     },
-    [usuario, verificarSessao, abrirLogin]
+    [status, isAuthenticated, router]
   );
 
-  return { requireAuth, usuario, carregando };
+  return { requireAuth, status, session, isAuthenticated };
 };
 
 export default useRequireAuth;

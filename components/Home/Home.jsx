@@ -315,10 +315,10 @@ const Home = () => {
           <div className={styles.authActions}>
             {!isAuthenticated && (
               <>
-                <Link className={styles.authButton} href="/login">
+                <Link className={styles.authButton} href="/auth/login">
                   Entrar
                 </Link>
-                <Link className={styles.authButton} href="/cadastro">
+                <Link className={styles.authButton} href="/auth/cadastro">
                   Cadastrar
                 </Link>
               </>
@@ -413,7 +413,7 @@ const Home = () => {
               <p className={styles.ctaText}>
                 Organize seu evento com artistas incríveis e confirme sua contratação em poucos passos.
               </p>
-              <Link href="/login" className={styles.ctaButton}>
+              <Link href="/auth/login" className={styles.ctaButton}>
                 Criar evento
               </Link>
             </section>

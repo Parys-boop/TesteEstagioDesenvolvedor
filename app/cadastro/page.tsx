@@ -143,7 +143,7 @@ export default function CadastroPage() {
 
         <p className={styles.loginHint}>
           Já tem conta?{' '}
-          <Link href="/login" className={styles.loginLink}>
+          <Link href="/auth/login" className={styles.loginLink}>
             Entrar
           </Link>
         </p>

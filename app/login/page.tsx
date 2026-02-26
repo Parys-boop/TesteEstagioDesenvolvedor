@@ -113,7 +113,7 @@ export default function LoginPage() {
 
         <p className={styles.signupHint}>
           Não tem conta?{' '}
-          <Link href="/cadastro" className={styles.signupLink}>
+          <Link href="/auth/cadastro" className={styles.signupLink}>
             Cadastre-se
           </Link>
         </p>
