@@ -3,6 +3,8 @@
   --spotify-green-light: #1ed760;
   --spotify-white: #ffffff;
   --spotify-black: #191414;
+  --spotify-primary: var(--spotify-green);
+  --spotify-secondary: var(--spotify-green-light);
 
   --color-bg: var(--spotify-white);
   --color-surface: rgba(25, 20, 20, 0.04);

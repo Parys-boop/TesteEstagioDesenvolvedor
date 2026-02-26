@@ -3,12 +3,44 @@
  * Funções utilitárias de API para buscar dados de artistas
  */
 import axios from 'axios'; // Ensure axios is installed / Garanta que o axios está instalado
+import { GENRES } from '@/data/genres';
 
 const isRateLimitError = (error) => {
   const status = error?.response?.status;
   const apiStatus = error?.response?.data?.error?.status;
   const message = error?.response?.data?.error?.message || error?.message || '';
   return status === 429 || apiStatus === 429 || /rate\s*limit/i.test(message);
+};
+
+const enrichArtistsWithGenre = (artists, genreLabel) =>
+  (Array.isArray(artists) ? artists : []).map((artist) => ({
+    ...artist,
+    genre: genreLabel,
+    genres: [genreLabel],
+  }));
+
+const uniqueArtistsById = (artists) => {
+  const seen = new Set();
+  return (Array.isArray(artists) ? artists : []).filter((artist) => {
+    if (!artist?.id || seen.has(artist.id)) {
+      return false;
+    }
+    seen.add(artist.id);
+    return true;
+  });
+};
+
+const resolveGenreDefinition = (genero) => {
+  const normalized = String(genero || '').trim().toLowerCase();
+  const match = GENRES.find(
+    (genre) =>
+      genre.label.toLowerCase() === normalized || genre.query.toLowerCase() === normalized
+  );
+
+  return {
+    label: match?.label ?? genero,
+    query: match?.query ?? genero,
+  };
 };
 
 /**
@@ -86,11 +118,40 @@ export async function fetchTrendingArtists(limit = 10) {
 }
 
 export async function fetchArtistasPopulares(limit = 8) {
-  const response = await fetchArtists({ query: 'pop', offset: 0, limit });
-  return response;
+  const perGenreLimit = Math.max(2, Math.ceil(limit / GENRES.length));
+  const requests = GENRES.map((genre) =>
+    fetchArtists({ query: genre.query, offset: 0, limit: perGenreLimit })
+  );
+
+  const responses = await Promise.all(requests);
+  let hitRateLimit = false;
+  const combined = responses.flatMap((response, index) => {
+    if (response?.error === 'rate_limit') {
+      hitRateLimit = true;
+      return [];
+    }
+    return enrichArtistsWithGenre(response?.artists || [], GENRES[index].label);
+  });
+
+  const unique = uniqueArtistsById(combined).slice(0, limit);
+
+  if (unique.length === 0 && hitRateLimit) {
+    return { artists: [], error: 'rate_limit' };
+  }
+
+  return { artists: unique };
 }
 
 export async function fetchArtistasPorGenero(genero, limit = 6) {
-  const response = await fetchArtists({ query: genero, offset: 0, limit });
-  return response;
+  const { label, query } = resolveGenreDefinition(genero);
+  const response = await fetchArtists({ query, offset: 0, limit });
+
+  if (response?.error) {
+    return response;
+  }
+
+  return {
+    ...response,
+    artists: enrichArtistsWithGenre(response?.artists || [], label),
+  };
 }

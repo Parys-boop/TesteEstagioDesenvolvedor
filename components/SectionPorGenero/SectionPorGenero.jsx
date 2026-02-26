@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import ArtistCard from '@/components/ArtistCard/ArtistCard';
 import { fetchArtistasPorGenero } from '@/utils/api';
+import { GENRES as GENRE_DEFINITIONS } from '@/data/genres';
 import styles from './SectionPorGenero.module.css';
 
-const GENRES = ['Rock', 'Pop', 'Sertanejo', 'Funk', 'MPB', 'Eletrônica'];
+const GENRES = GENRE_DEFINITIONS.map((genre) => genre.label);
 const DEFAULT_LIMIT = 6;
 
 const SectionPorGenero = ({ onSelect }) => {
