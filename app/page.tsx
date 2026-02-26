@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import useRequireAuth from '@/hooks/useRequireAuth';
 import SearchHeader from '@/components/SearchHeader/SearchHeader';
 import SectionPopulares from '@/components/SectionPopulares/SectionPopulares';
@@ -15,6 +16,7 @@ const SEARCH_LIMIT = 6;
 const DEBOUNCE_MS = 350;
 
 export default function Page() {
+  const router = useRouter();
   const { requireAuth } = useRequireAuth();
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -80,8 +82,18 @@ export default function Page() {
 
   const handleHireArtist = async () => {
     await requireAuth(() => {
+      if (!selectedArtist) {
+        setIsModalOpen(false);
+        return;
+      }
+      const params = new URLSearchParams({
+        artistId: String(selectedArtist.id || ''),
+        artistName: selectedArtist.name || '',
+        artistImage: selectedArtist.image || '',
+        artistGenre: selectedArtist.genre || '',
+      });
       setIsModalOpen(false);
-      document.getElementById('cta-create-event')?.scrollIntoView({ behavior: 'smooth' });
+      router.push(`/eventos/criar?${params.toString()}`);
     });
   };
 

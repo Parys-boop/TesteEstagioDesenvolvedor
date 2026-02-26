@@ -12,6 +12,10 @@ const SearchHeader = ({ value, onSearch, isLoading }) => {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
+        <div className={styles.spacer} aria-hidden="true" />
+        <div className={styles.searchSlot}>
+          <SearchBar value={value} onSearch={onSearch} isLoading={isLoading} />
+        </div>
         <div className={styles.authActions}>
           {showAuthActions && (
             <>
@@ -24,12 +28,6 @@ const SearchHeader = ({ value, onSearch, isLoading }) => {
             </>
           )}
         </div>
-
-        <div className={styles.searchSlot}>
-          <SearchBar value={value} onSearch={onSearch} isLoading={isLoading} />
-        </div>
-
-        <div className={styles.spacer} aria-hidden="true" />
       </div>
     </header>
   );

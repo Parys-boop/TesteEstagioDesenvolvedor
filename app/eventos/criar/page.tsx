@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { fetchArtists } from '@/utils/api';
 import styles from './page.module.css';
@@ -17,6 +17,8 @@ const getMinDate = () => {
 
 export default function CreateEventPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const prefillDoneRef = useRef(false);
   const [titulo, setTitulo] = useState('');
   const [data, setData] = useState('');
   const [local, setLocal] = useState('');
@@ -87,6 +89,33 @@ export default function CreateEventPage() {
     return () => clearTimeout(timeout);
   }, [toast]);
 
+  useEffect(() => {
+    if (prefillDoneRef.current) {
+      return;
+    }
+
+    const artistId = searchParams.get('artistId');
+    if (!artistId) {
+      return;
+    }
+
+    prefillDoneRef.current = true;
+
+    const prefillArtist = {
+      id: artistId,
+      name: searchParams.get('artistName') || 'Artista selecionado',
+      image: searchParams.get('artistImage') || null,
+      genre: searchParams.get('artistGenre') || 'Genero nao informado',
+    };
+
+    setSelectedArtists((prev) => {
+      if (prev.some((artist) => artist.id === prefillArtist.id)) {
+        return prev;
+      }
+      return [...prev, prefillArtist];
+    });
+  }, [searchParams]);
+
   const handleAddArtist = (artist) => {
     if (selectedIds.has(artist.id)) {
       return;
@@ -102,7 +131,7 @@ export default function CreateEventPage() {
 
   const validateForm = () => {
     if (!titulo.trim()) {
-      return 'Informe o título do evento.';
+      return 'Informe o titulo do evento.';
     }
     if (!data) {
       return 'Informe a data do evento.';
@@ -135,6 +164,12 @@ export default function CreateEventPage() {
       data,
       local: local.trim(),
       artistaIds: selectedArtists.map((artist) => artist.id),
+      artistas: selectedArtists.map((artist) => ({
+        id: artist.id,
+        name: artist.name,
+        image: artist.image || null,
+        genre: artist.genre || null,
+      })),
     };
 
     try {
@@ -184,13 +219,13 @@ export default function CreateEventPage() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label htmlFor="titulo">Título do evento *</label>
+            <label htmlFor="titulo">Titulo do evento *</label>
             <input
               id="titulo"
               type="text"
               value={titulo}
               onChange={(event) => setTitulo(event.target.value)}
-              placeholder="Ex: Festa de aniversário"
+              placeholder="Ex: Festa de aniversario"
               required
             />
           </div>
@@ -214,7 +249,7 @@ export default function CreateEventPage() {
                 type="text"
                 value={local}
                 onChange={(event) => setLocal(event.target.value)}
-                placeholder="Ex: Espaço de eventos"
+                placeholder="Ex: Espaco de eventos"
               />
             </div>
           </div>
@@ -240,8 +275,17 @@ export default function CreateEventPage() {
                       onClick={() => handleAddArtist(artist)}
                       disabled={selectedIds.has(artist.id)}
                     >
-                      <span>{artist.name}</span>
-                      <small>{artist.genre}</small>
+                      {artist.image && (
+                        <img
+                          src={artist.image}
+                          alt={`Foto de ${artist.name}`}
+                          className={styles.dropdownImage}
+                        />
+                      )}
+                      <div className={styles.dropdownInfo}>
+                        <span>{artist.name}</span>
+                        <small>{artist.genre}</small>
+                      </div>
                     </button>
                   ))}
                 </div>
@@ -288,8 +332,8 @@ export default function CreateEventPage() {
           role="status"
         >
           {toast.message}
-          <button type="button" onClick={() => setToast(null)} aria-label="Fechar notificação">
-            ✕
+          <button type="button" onClick={() => setToast(null)} aria-label="Fechar notificacao">
+            x
           </button>
         </div>
       )}

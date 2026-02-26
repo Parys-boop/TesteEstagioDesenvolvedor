@@ -1,6 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import styles from './page.module.css';
 
 type CadastroForm = {
   nome: string;
@@ -96,57 +98,66 @@ export default function CadastroPage() {
   };
 
   return (
-    <section aria-label="Página de cadastro">
-      <h1>Criar conta</h1>
-      <p>Preencha os dados abaixo para criar sua conta.</p>
+    <section className={styles.page} aria-label="Página de cadastro">
+      <div className={styles.card}>
+        <h1 className={styles.title}>Criar conta</h1>
+        <p className={styles.subtitle}>Preencha os dados abaixo para criar sua conta.</p>
 
-      <form onSubmit={handleSubmit} noValidate>
-        <div>
-          <label htmlFor="nome">Nome</label>
-          <input
-            id="nome"
-            type="text"
-            value={form.nome}
-            onChange={(event) => setForm((prev) => ({ ...prev, nome: event.target.value }))}
-            aria-invalid={Boolean(erros.nome)}
-            placeholder="Digite seu nome"
-          />
-          {erros.nome && <span role="alert">{erros.nome}</span>}
-        </div>
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+          <div className={styles.field}>
+            <label htmlFor="nome">Nome</label>
+            <input
+              id="nome"
+              type="text"
+              value={form.nome}
+              onChange={(event) => setForm((prev) => ({ ...prev, nome: event.target.value }))}
+              aria-invalid={Boolean(erros.nome)}
+              placeholder="Digite seu nome"
+            />
+            {erros.nome && <span className={styles.error}>{erros.nome}</span>}
+          </div>
 
-        <div>
-          <label htmlFor="email">E-mail</label>
-          <input
-            id="email"
-            type="email"
-            value={form.email}
-            onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-            aria-invalid={Boolean(erros.email)}
-            placeholder="Digite seu e-mail"
-          />
-          {erros.email && <span role="alert">{erros.email}</span>}
-        </div>
+          <div className={styles.field}>
+            <label htmlFor="email">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              value={form.email}
+              onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+              aria-invalid={Boolean(erros.email)}
+              placeholder="Digite seu e-mail"
+            />
+            {erros.email && <span className={styles.error}>{erros.email}</span>}
+          </div>
 
-        <div>
-          <label htmlFor="senha">Senha</label>
-          <input
-            id="senha"
-            type="password"
-            value={form.senha}
-            onChange={(event) => setForm((prev) => ({ ...prev, senha: event.target.value }))}
-            aria-invalid={Boolean(erros.senha)}
-            placeholder="Digite sua senha"
-          />
-          {erros.senha && <span role="alert">{erros.senha}</span>}
-        </div>
+          <div className={styles.field}>
+            <label htmlFor="senha">Senha</label>
+            <input
+              id="senha"
+              type="password"
+              value={form.senha}
+              onChange={(event) => setForm((prev) => ({ ...prev, senha: event.target.value }))}
+              aria-invalid={Boolean(erros.senha)}
+              placeholder="Digite sua senha"
+            />
+            {erros.senha && <span className={styles.error}>{erros.senha}</span>}
+          </div>
 
-        <button type="submit" disabled={enviando || !isFormValido}>
-          {enviando ? 'Cadastrando...' : 'Cadastrar'}
-        </button>
-      </form>
+          <button className={styles.submit} type="submit" disabled={enviando || !isFormValido}>
+            {enviando ? 'Cadastrando...' : 'Cadastrar'}
+          </button>
+        </form>
 
-      {mensagemErro && <p role="alert">{mensagemErro}</p>}
-      {mensagemSucesso && <p role="status">{mensagemSucesso}</p>}
+        {mensagemErro && <p className={styles.error}>{mensagemErro}</p>}
+        {mensagemSucesso && <p role="status">{mensagemSucesso}</p>}
+
+        <p className={styles.loginHint}>
+          Já tem conta?{' '}
+          <Link href="/auth/login" className={styles.loginLink}>
+            Entrar
+          </Link>
+        </p>
+      </div>
     </section>
   );
 }

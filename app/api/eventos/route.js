@@ -39,6 +39,7 @@ export async function GET() {
       data: evento.data,
       local: evento.local,
       artistaIds: evento.artistaIds,
+      artistas: Array.isArray(evento.artistas) ? evento.artistas : [],
       userId: evento.userId,
       createdAt: evento.createdAt,
     }));
@@ -66,7 +67,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { titulo, data, local, artistaIds } = body || {};
+    const { titulo, data, local, artistaIds, artistas } = body || {};
 
     if (!titulo || !titulo.trim()) {
       return NextResponse.json(
@@ -82,7 +83,22 @@ export async function POST(request) {
       );
     }
 
-    if (!Array.isArray(artistaIds) || artistaIds.length === 0) {
+    const artistasSanitizados = Array.isArray(artistas)
+      ? artistas
+          .filter((artist) => artist && artist.id)
+          .map((artist) => ({
+            id: String(artist.id),
+            name: artist.name || 'Artista',
+            image: artist.image || null,
+            genre: artist.genre || null,
+          }))
+      : [];
+
+    const artistaIdsNormalizados = Array.isArray(artistaIds) && artistaIds.length > 0
+      ? artistaIds.map((id) => String(id))
+      : artistasSanitizados.map((artist) => artist.id);
+
+    if (!Array.isArray(artistaIdsNormalizados) || artistaIdsNormalizados.length === 0) {
       return NextResponse.json(
         { erro: { mensagem: 'Informe pelo menos um artista.' } },
         { status: 400 }
@@ -93,7 +109,8 @@ export async function POST(request) {
       titulo: titulo.trim(),
       data,
       local: (local || '').trim(),
-      artistaIds,
+      artistaIds: artistaIdsNormalizados,
+      artistas: artistasSanitizados,
       userId,
       createdAt: new Date().toISOString(),
     };
@@ -105,6 +122,7 @@ export async function POST(request) {
 
     return NextResponse.json(
       {
+        mensagem: 'Evento salvo com sucesso.',
         evento: {
           id: result.insertedId.toString(),
           ...evento,
