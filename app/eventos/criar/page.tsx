@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/SearchBar/SearchBar';
 import { fetchArtists } from '@/utils/api';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import styles from './page.module.css';
 
 const SEARCH_LIMIT = 6;
@@ -18,6 +19,7 @@ const getMinDate = () => {
 export default function CreateEventPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { status, isAuthenticated } = useRequireAuth();
   const prefillDoneRef = useRef(false);
   const [titulo, setTitulo] = useState('');
   const [data, setData] = useState('');
@@ -90,6 +92,16 @@ export default function CreateEventPage() {
   }, [toast]);
 
   useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/auth/login');
+    }
+  }, [router, status]);
+
+  useEffect(() => {
+    if (status !== 'authenticated') {
+      return;
+    }
+
     if (prefillDoneRef.current) {
       return;
     }
@@ -114,7 +126,17 @@ export default function CreateEventPage() {
       }
       return [...prev, prefillArtist];
     });
-  }, [searchParams]);
+  }, [searchParams, status]);
+
+  if (status === 'loading' || !isAuthenticated) {
+    return (
+      <div className={styles.page}>
+        <main className={styles.container}>
+          <p className={styles.helperText}>Verificando autenticacao...</p>
+        </main>
+      </div>
+    );
+  }
 
   const handleAddArtist = (artist) => {
     if (selectedIds.has(artist.id)) {
@@ -202,7 +224,7 @@ export default function CreateEventPage() {
       setSelectedArtists([]);
       setArtistaQuery('');
       setSearchResults([]);
-    } catch (error) {
+    } catch {
       setToast({ type: 'error', message: 'Nao foi possivel salvar o evento.' });
     } finally {
       setIsSaving(false);

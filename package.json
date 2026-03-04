@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:crud:eventos": "node scripts/test-eventos-crud.mjs"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.11.1",

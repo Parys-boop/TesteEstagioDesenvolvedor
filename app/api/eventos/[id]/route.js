@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth';
 import { ObjectId } from 'mongodb';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/authOptions';
 import clientPromise from '@/lib/mongodb';
 
 const isFutureDate = (dateValue) => {
@@ -20,7 +20,7 @@ const parseObjectId = (value) => {
   return new ObjectId(value);
 };
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
     const session = await getServerSession(authOptions);
     const userId = getSessionUserId(session);
@@ -32,7 +32,8 @@ export async function PUT(request, { params }) {
       );
     }
 
-    const eventId = parseObjectId(params?.id);
+    const resolvedParams = await context.params;
+    const eventId = parseObjectId(resolvedParams?.id);
     if (!eventId) {
       return NextResponse.json(
         { erro: { mensagem: 'Evento invalido.' } },
@@ -96,7 +97,7 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
     const session = await getServerSession(authOptions);
     const userId = getSessionUserId(session);
@@ -108,7 +109,8 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    const eventId = parseObjectId(params?.id);
+    const resolvedParams = await context.params;
+    const eventId = parseObjectId(resolvedParams?.id);
     if (!eventId) {
       return NextResponse.json(
         { erro: { mensagem: 'Evento invalido.' } },

@@ -27,11 +27,11 @@ export default function Page() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (!query.trim()) {
-      setDebouncedQuery('');
-      return;
-    }
-    const timeout = setTimeout(() => setDebouncedQuery(query), DEBOUNCE_MS);
+    const normalized = query.trim();
+    const delay = normalized ? DEBOUNCE_MS : 0;
+    const timeout = setTimeout(() => {
+      setDebouncedQuery(normalized ? query : '');
+    }, delay);
     return () => clearTimeout(timeout);
   }, [query]);
 

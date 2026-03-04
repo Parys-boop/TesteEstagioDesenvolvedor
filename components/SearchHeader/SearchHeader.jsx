@@ -1,13 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import SearchBar from '@/components/SearchBar/SearchBar';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import styles from './SearchHeader.module.css';
 
 const SearchHeader = ({ value, onSearch, isLoading }) => {
-  const { status } = useSession();
-  const showAuthActions = status !== 'authenticated';
+  const router = useRouter();
+  const { requireAuth, status, isAuthenticated } = useRequireAuth();
+  const showAuthActions = !isAuthenticated;
+  const isCheckingAuth = status === 'loading';
+
+  const handleMeusEventosClick = async () => {
+    await requireAuth(() => {
+      router.push('/eventos/historico');
+    });
+  };
 
   return (
     <header className={styles.header}>
@@ -17,6 +26,14 @@ const SearchHeader = ({ value, onSearch, isLoading }) => {
           <SearchBar value={value} onSearch={onSearch} isLoading={isLoading} />
         </div>
         <div className={styles.authActions}>
+          <button
+            type="button"
+            className={styles.eventsButton}
+            onClick={handleMeusEventosClick}
+            disabled={isCheckingAuth}
+          >
+            Meus Eventos
+          </button>
           {showAuthActions && (
             <>
               <Link className={styles.authButton} href="/auth/login">

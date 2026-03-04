@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import useRequireAuth from '@/hooks/useRequireAuth';
 import styles from './page.module.css';
 
 const formatDate = (value) => {
@@ -13,6 +15,7 @@ const formatDate = (value) => {
 
 export default function EventosHistoricoPage() {
   const router = useRouter();
+  const { status, isAuthenticated } = useRequireAuth();
   const [eventos, setEventos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
@@ -25,6 +28,16 @@ export default function EventosHistoricoPage() {
   const [acaoId, setAcaoId] = useState(null);
 
   useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/auth/login');
+    }
+  }, [router, status]);
+
+  useEffect(() => {
+    if (status !== 'authenticated') {
+      return;
+    }
+
     let active = true;
 
     const loadEventos = async () => {
@@ -45,7 +58,7 @@ export default function EventosHistoricoPage() {
         }
 
         setEventos(Array.isArray(data?.eventos) ? data.eventos : []);
-      } catch (error) {
+      } catch {
         if (!active) return;
         setErro('Nao foi possivel carregar seus eventos.');
       } finally {
@@ -60,7 +73,17 @@ export default function EventosHistoricoPage() {
     return () => {
       active = false;
     };
-  }, [router]);
+  }, [router, status]);
+
+  if (status === 'loading' || !isAuthenticated) {
+    return (
+      <div className={styles.page}>
+        <main className={styles.container}>
+          <p className={styles.helper}>Verificando autenticacao...</p>
+        </main>
+      </div>
+    );
+  }
 
   const iniciarEdicao = (evento) => {
     setEditandoId(evento.id);
@@ -109,7 +132,7 @@ export default function EventosHistoricoPage() {
         )
       );
       cancelarEdicao();
-    } catch (error) {
+    } catch {
       setErro('Nao foi possivel atualizar o evento.');
     } finally {
       setAcaoId(null);
@@ -141,7 +164,7 @@ export default function EventosHistoricoPage() {
       }
 
       setEventos((prev) => prev.filter((evento) => evento.id !== eventoId));
-    } catch (error) {
+    } catch {
       setErro('Nao foi possivel remover o evento.');
     } finally {
       setAcaoId(null);
@@ -152,8 +175,15 @@ export default function EventosHistoricoPage() {
     <div className={styles.page}>
       <main className={styles.container}>
         <header className={styles.header}>
-          <h1>Meus eventos</h1>
-          <p>Acompanhe os eventos que voce criou.</p>
+          <div className={styles.headerTop}>
+            <div>
+              <h1>Meus eventos</h1>
+              <p>Acompanhe os eventos que voce criou.</p>
+            </div>
+            <Link href="/eventos/criar" className={styles.createButton}>
+              Novo evento
+            </Link>
+          </div>
         </header>
 
         {carregando && <p className={styles.helper}>Carregando eventos...</p>}

@@ -20,6 +20,33 @@
   color: var(--color-text-muted);
 }
 
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.createButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.createButton:hover,
+.createButton:focus-visible {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
 .list {
   display: grid;
   gap: 16px;
@@ -142,6 +169,15 @@
 @media (max-width: 768px) {
   .container {
     padding: 24px 16px 60px;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .createButton {
+    width: fit-content;
   }
 
   .input {

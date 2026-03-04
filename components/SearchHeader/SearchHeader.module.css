@@ -24,6 +24,38 @@
   justify-self: end;
 }
 
+.eventsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--spotify-green);
+  background: var(--spotify-green);
+  color: var(--spotify-white);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.eventsButton:hover {
+  transform: translateY(-1px);
+  background: #18a34a;
+  box-shadow: 0 8px 18px rgba(29, 185, 84, 0.25);
+}
+
+.eventsButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.eventsButton:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 .authButton {
   display: inline-flex;
   align-items: center;
